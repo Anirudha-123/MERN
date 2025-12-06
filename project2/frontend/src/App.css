@@ -1,0 +1,155 @@
+.headUl li{
+
+    font-size: 18px;
+
+
+
+}
+
+.headUl li:hover{
+
+  border-bottom: 1px solid rgb(97, 149, 61); 
+}
+
+
+.section2 img{
+
+  height: 380px !important;
+  object-fit: cover !important;
+  width: 100% !important;
+}
+
+.section3{
+
+  background-color: rgba(196, 175, 164, 0.5) !important;
+
+  border-top: 50% !important;
+}
+
+.section3 card{
+
+  border-top-left-radius: 20% !important;
+  border-top-right-radius: 20% !important;
+}
+
+.card {
+
+  transition: transform 0.4s ease-in-out;
+}
+
+.card:hover{
+
+  transform: scale(1.06);
+}
+
+.ho:hover{
+
+  background-color: bisque !important;
+  
+  border-bottom-right-radius: 10%;
+  border-top-right-radius: 10%;
+  border: none;
+
+   
+}
+/* 
+.dropdown-menu li:first-child .ho:hover {
+  background-image: url("/p_img11.png");
+  background-size: cover;
+  background-repeat:no-repeat;
+  width: 600px !important;
+  height: 400px !important;
+  
+} */
+
+/* 
+.dropdown-menu  li:nth-child(2) .ho:hover{
+
+
+   background-image: url("/p_img52.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 600px !important;
+  height: 400px !important;
+  
+} */
+
+
+
+.btn-cart{
+
+  background-color: #FF3F6C;
+  color: #FFFFFF;
+   border: none;
+   height: 38px;
+   border-radius: 10%;
+}
+
+
+.add-to-bag {
+  background-color: #198754; /* Myntra pink */
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+
+.buyNow {
+  background-color: #ff3f6c; /* Myntra pink */
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+
+.add-to-bag1 {
+  background-color: #060506; /* Myntra pink */
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+
+
+
+
+
+.last  .dropdown-item:hover{
+
+   background-color: aqua !important;
+
+}
+
+
+/* Default size */
+.nav-link {
+  font-size: 19px;
+  font-weight: 600;
+}
+
+/* When screen width is below 1400px */
+@media (max-width: 1400px) {
+  .nav-link {
+    font-size: 12px !important;
+    padding-left: 4px !important;
+    padding-right: 6px !important;
+  }
+}
+
+
+
