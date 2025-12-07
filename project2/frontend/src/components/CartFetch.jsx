@@ -175,7 +175,7 @@ const CartFetch = () => {
 
   async function getUserCart(params) {
     try {
-      const response = await axios.get("http://localhost:3000/api/carts/demo", {
+      const response = await axios.get("mern-gamma-swart.vercel.app/api/carts/demo", {
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -195,7 +195,7 @@ const CartFetch = () => {
   const incrementQty = async (id) => {
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/carts/demo/${id}`,
+        `mern-gamma-swart.vercel.app/api/carts/demo/${id}`,
         {},
         {
           headers: {
@@ -213,7 +213,7 @@ const CartFetch = () => {
   const decrementQty = async (id) => {
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/carts/demo/decrement/${id}`,
+        `mern-gamma-swart.vercel.app/api/carts/demo/decrement/${id}`,
         {},
         {
           headers: {
@@ -231,7 +231,7 @@ const CartFetch = () => {
   const removeCart = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3000/api/carts/demo/${id}`,
+        `mern-gamma-swart.vercel.app/api/carts/demo/${id}`,
         {
           headers: {
             Authorization: "Bearer " + token,
