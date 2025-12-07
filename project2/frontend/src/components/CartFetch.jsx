@@ -213,7 +213,7 @@ const CartFetch = () => {
   const decrementQty = async (id) => {
     try {
       const response = await axios.post(
-        ` https://mern-backend-oe29.onrender.com/api/carts/demo/decrement/${id}`,
+        `https://mern-backend-oe29.onrender.com/api/carts/demo/decrement/${id}`,
         {},
         {
           headers: {
@@ -231,7 +231,7 @@ const CartFetch = () => {
   const removeCart = async (id) => {
     try {
       const response = await axios.delete(
-        ` https://mern-backend-oe29.onrender.com/api/carts/demo/${id}`,
+        `https://mern-backend-oe29.onrender.com/api/carts/demo/${id}`,
         {
           headers: {
             Authorization: "Bearer " + token,
