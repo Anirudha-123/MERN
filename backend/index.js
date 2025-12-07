@@ -19,7 +19,8 @@ app.use(express.json())
 app.use(cors({
   origin:  [
     "http://localhost:5173",
-    "https://mern-8tqb.onrender.com"
+    "https://mern-8tqb.onrender.com",
+    " https://mern-backend-oe29.onrender.com"
   ],
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"],
