@@ -130,7 +130,7 @@ const Products = () => {
   const addToCartProduct = async (productId) => {
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/carts/demo`,
+        `mern-gamma-swart.vercel.app/api/carts/demo`,
         {
           cartProduct: productId,
           quantity: 1,
@@ -152,7 +152,7 @@ const Products = () => {
     async function fetchAllProducts() {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/product/getProducts",
+          "mern-gamma-swart.vercel.app/api/product/getProducts",
           {
             headers: {
               Authorization: "Bearer " + token,
