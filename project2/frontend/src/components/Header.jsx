@@ -77,126 +77,128 @@ const Header = () => {
               </ul>
             </li>{" "} */}
             <li className="dropdown nav-item">
-  <a
-    href="#"
-    className="nav-link text-dark px-2 dropdown-toggle"
-    role="button"
-    data-bs-toggle="dropdown"
-    style={{
-      transition: 'all 0.3s ease',
-      fontSize: '19px',
-      position: 'relative'
-    }}
-    // onMouseEnter={(e) => {
-    //   e.target.style.color = '#dc3545';
-    // }}
-    // onMouseLeave={(e) => {
-    //   e.target.style.color = '';
-    // }}
-  >
-    Mens
-  </a>
+              <a
+                href="#"
+                className="nav-link text-dark px-2 dropdown-toggle"
+                role="button"
+                data-bs-toggle="dropdown"
+                style={{
+                  transition: "all 0.3s ease",
+                  fontSize: "19px",
+                  position: "relative",
+                }}
+                // onMouseEnter={(e) => {
+                //   e.target.style.color = '#dc3545';
+                // }}
+                // onMouseLeave={(e) => {
+                //   e.target.style.color = '';
+                // }}
+              >
+                Mens
+              </a>
 
-  <ul
-    className="dropdown-menu shadow-lg border-0"
-    style={{ 
-      borderRadius: '16px',
-      padding: '12px',
-      minWidth: '200px',
-      marginTop: '12px',
-      animation: 'fadeIn 0.3s ease',
-      background: 'linear-gradient(145deg, #ffffff, #f8f9fa)'
-    }}
-  >
-    <li className="mb-1">
-      <Link
-        to={"/collections/mens/t-shirt"}
-        className="dropdown-item d-flex align-items-center"
-        style={{
-          borderRadius: '10px',
-          padding: '12px 16px',
-          fontWeight: '500',
-          transition: 'all 0.2s ease',
-          color: '#333'
-        }}
-        onMouseEnter={(e) => {
-          e.target.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-          e.target.style.color = '#fff';
-          e.target.style.transform = 'translateX(5px)';
-          e.target.style.paddingLeft = '20px';
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.background = '';
-          e.target.style.color = '#333';
-          e.target.style.transform = 'translateX(0)';
-          e.target.style.paddingLeft = '16px';
-        }}
-      >
-        <span style={{ marginRight: '8px' }}>👕</span>
-        T-shirts
-      </Link>
-    </li>
+              <ul
+                className="dropdown-menu shadow-lg border-0"
+                style={{
+                  borderRadius: "16px",
+                  padding: "12px",
+                  minWidth: "200px",
+                  marginTop: "12px",
+                  animation: "fadeIn 0.3s ease",
+                  background: "linear-gradient(145deg, #ffffff, #f8f9fa)",
+                }}
+              >
+                <li className="mb-1">
+                  <Link
+                    to={"/collections/mens/t-shirt"}
+                    className="dropdown-item d-flex align-items-center"
+                    style={{
+                      borderRadius: "10px",
+                      padding: "12px 16px",
+                      fontWeight: "500",
+                      transition: "all 0.2s ease",
+                      color: "#333",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.background =
+                        "linear-gradient(135deg, #667eea 0%, #764ba2 100%)";
+                      e.target.style.color = "#fff";
+                      e.target.style.transform = "translateX(5px)";
+                      e.target.style.paddingLeft = "20px";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.background = "";
+                      e.target.style.color = "#333";
+                      e.target.style.transform = "translateX(0)";
+                      e.target.style.paddingLeft = "16px";
+                    }}
+                  >
+                    <span style={{ marginRight: "8px" }}>👕</span>
+                    T-shirts
+                  </Link>
+                </li>
 
-    <li className="mb-1">
-      <Link
-        to={"/collections/mens/shirt"}
-        className="dropdown-item d-flex align-items-center"
-        style={{
-          borderRadius: '10px',
-          padding: '12px 16px',
-          fontWeight: '500',
-          transition: 'all 0.2s ease',
-          color: '#333'
-        }}
-        onMouseEnter={(e) => {
-          e.target.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-          e.target.style.color = '#fff';
-          e.target.style.transform = 'translateX(5px)';
-          e.target.style.paddingLeft = '20px';
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.background = '';
-          e.target.style.color = '#333';
-          e.target.style.transform = 'translateX(0)';
-          e.target.style.paddingLeft = '16px';
-        }}
-      >
-        <span style={{ marginRight: '8px' }}>👔</span>
-        Shirts
-      </Link>
-    </li>
+                <li className="mb-1">
+                  <Link
+                    to={"/collections/mens/shirt"}
+                    className="dropdown-item d-flex align-items-center"
+                    style={{
+                      borderRadius: "10px",
+                      padding: "12px 16px",
+                      fontWeight: "500",
+                      transition: "all 0.2s ease",
+                      color: "#333",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.background =
+                        "linear-gradient(135deg, #667eea 0%, #764ba2 100%)";
+                      e.target.style.color = "#fff";
+                      e.target.style.transform = "translateX(5px)";
+                      e.target.style.paddingLeft = "20px";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.background = "";
+                      e.target.style.color = "#333";
+                      e.target.style.transform = "translateX(0)";
+                      e.target.style.paddingLeft = "16px";
+                    }}
+                  >
+                    <span style={{ marginRight: "8px" }}>👔</span>
+                    Shirts
+                  </Link>
+                </li>
 
-    <li>
-      <Link
-        to={"/collections/mens/short"}
-        className="dropdown-item d-flex align-items-center"
-        style={{
-          borderRadius: '10px',
-          padding: '12px 16px',
-          fontWeight: '500',
-          transition: 'all 0.2s ease',
-          color: '#333'
-        }}
-        onMouseEnter={(e) => {
-          e.target.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-          e.target.style.color = '#fff';
-          e.target.style.transform = 'translateX(5px)';
-          e.target.style.paddingLeft = '20px';
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.background = '';
-          e.target.style.color = '#333';
-          e.target.style.transform = 'translateX(0)';
-          e.target.style.paddingLeft = '16px';
-        }}
-      >
-        <span style={{ marginRight: '8px' }}>🩳</span>
-        Shorts
-      </Link>
-    </li>
-  </ul>
-</li>
-
+                <li>
+                  <Link
+                    to={"/collections/mens/short"}
+                    className="dropdown-item d-flex align-items-center"
+                    style={{
+                      borderRadius: "10px",
+                      padding: "12px 16px",
+                      fontWeight: "500",
+                      transition: "all 0.2s ease",
+                      color: "#333",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.background =
+                        "linear-gradient(135deg, #667eea 0%, #764ba2 100%)";
+                      e.target.style.color = "#fff";
+                      e.target.style.transform = "translateX(5px)";
+                      e.target.style.paddingLeft = "20px";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.background = "";
+                      e.target.style.color = "#333";
+                      e.target.style.transform = "translateX(0)";
+                      e.target.style.paddingLeft = "16px";
+                    }}
+                  >
+                    <span style={{ marginRight: "8px" }}>🩳</span>
+                    Shorts
+                  </Link>
+                </li>
+              </ul>
+            </li>
             <li className="dropdown nav-item">
               <a
                 href="#"
@@ -401,7 +403,6 @@ const Header = () => {
               </div>
             </div>
           </div> */}
-
           {/* <div className="text-end">
   <div className="d-flex justify-content-center align-items-center">
     <div className="cart">
@@ -530,139 +531,135 @@ const Header = () => {
   </div>
 </div>
            */}
-
-
-           <div className="text-end">
-  <div className="d-flex justify-content-center align-items-center">
-
-    {/* Cart Button */}
-    <div className="cart">
-      <Link to={"/cartFetch"}>
-        <button 
-          className="btn btn-outline-danger me-4"
-          style={{
-            borderRadius: '20px',
-            padding: '8px 20px',
-            fontWeight: '500'
-          }}
-        >
-          Cart
-        </button>
-      </Link>
-    </div>
-
-    {/* User Dropdown */}
-    <div className="cart dropdown">
-      <li 
-        className="nav-link" 
-        style={{ border: "none", listStyle: 'none', padding: 0 }}
-      >
-        {/* FIXED: Added <a> TAG */}
-        <a
-          className="btn btn-outline-danger btn-sm me-3 dropdown-toggle"
-          role="button"
-          data-bs-toggle="dropdown"
-          style={{ 
-            border: "2px solid #dc3545", 
-            fontSize: "17px",
-            borderRadius: '20px',
-            // padding: '8px 16px',
-            fontWeight: '500'
-          }}
-        >
-          {/* {user && (
-            <span className="me-2" style={{ fontSize: "14px" }}>
-              {`Hi ${user.fullName} !!`}
-            </span>
-          )} */}
-          <FaUser />
-        </a>
-
-        <ul 
-          className="dropdown-menu mt-2 last"
-          style={{
-            borderRadius: '12px',
-            padding: '8px',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
-          }}
-        >
-          <li>
-            <Link
-              to={user ? "/profile" : "/login"}
-              className="dropdown-item"
-              style={{
-                borderRadius: '8px',
-                padding: '10px 16px',
-                fontWeight: '500'
-              }}
-            >
-              My Profile
-            </Link>
-          </li>
-
-          <li>
-            <Link
-              to={user ? "/orders" : "/login"}
-              className="dropdown-item"
-              style={{
-                borderRadius: '8px',
-                padding: '10px 16px',
-                fontWeight: '500'
-              }}
-            >
-              Orders
-            </Link>
-          </li>
-
-          {user ? (
-            <>
-              <li><hr className="dropdown-divider my-2" /></li>
-              <li>
-                <Link
-                  to={"/"}
-                  className="dropdown-item"
-                  style={{
-                    borderRadius: '8px',
-                    padding: '10px 16px',
-                    fontWeight: '500',
-                    color: '#dc3545'
-                  }}
-                  onClick={() => {
-                    localStorage.removeItem("token");
-                    localStorage.removeItem("user");
-                    toast.success("You are logout successfully");
-                    logout();
-                  }}
-                >
-                  Logout
+          <div className="text-end">
+            <div className="d-flex justify-content-center align-items-center">
+              {/* Cart Button */}
+              <div className="cart">
+                <Link to={"/cartFetch"}>
+                  <button
+                    className="btn btn-outline-danger me-4"
+                    style={{
+                      borderRadius: "20px",
+                      padding: "8px 20px",
+                      fontWeight: "500",
+                    }}
+                  >
+                    Cart
+                  </button>
                 </Link>
-              </li>
-            </>
-          ) : (
-            <>
-              <li>
-                <Link 
-                  to={"/login"} 
-                  className="dropdown-item"
-                  style={{
-                    borderRadius: '8px',
-                    padding: '10px 16px',
-                    fontWeight: '500'
-                  }}
+              </div>
+
+              {/* User Dropdown */}
+              <div className="cart dropdown">
+                <li
+                  className="nav-link"
+                  style={{ border: "none", listStyle: "none", padding: 0 }}
                 >
-                  Login
-                </Link>
-              </li>
-            </>
-          )}
-        </ul>
-      </li>
-    </div>
-  </div>
-</div>
+                  {/* FIXED: Added <a> TAG */}
+                  <a
+                    className="btn btn-outline-danger btn-sm me-3 dropdown-toggle"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    style={{
+                      border: "2px solid #dc3545",
+                      fontSize: "17px",
+                      borderRadius: "20px",
+                      // padding: '8px 16px',
+                      fontWeight: "500",
+                    }}
+                  >
+                    {user && (
+                      <span className="me-2" style={{ fontSize: "14px" }}>
+                        {`Hi ${user.fullName} !!`}
+                      </span>
+                    )}
+                    <FaUser />
+                  </a>
 
+                  <ul
+                    className="dropdown-menu mt-2 last"
+                    style={{
+                      borderRadius: "12px",
+                      padding: "8px",
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                    }}
+                  >
+                    <li>
+                      <Link
+                        to={user ? "/profile" : "/login"}
+                        className="dropdown-item"
+                        style={{
+                          borderRadius: "8px",
+                          padding: "10px 16px",
+                          fontWeight: "500",
+                        }}
+                      >
+                        My Profile
+                      </Link>
+                    </li>
 
+                    <li>
+                      <Link
+                        to={user ? "/orders" : "/login"}
+                        className="dropdown-item"
+                        style={{
+                          borderRadius: "8px",
+                          padding: "10px 16px",
+                          fontWeight: "500",
+                        }}
+                      >
+                        Orders
+                      </Link>
+                    </li>
 
+                    {user ? (
+                      <>
+                        <li>
+                          <hr className="dropdown-divider my-2" />
+                        </li>
+                        <li>
+                          <Link
+                            to={"/"}
+                            className="dropdown-item"
+                            style={{
+                              borderRadius: "8px",
+                              padding: "10px 16px",
+                              fontWeight: "500",
+                              color: "#dc3545",
+                            }}
+                            onClick={() => {
+                              localStorage.removeItem("token");
+                              localStorage.removeItem("user");
+                              toast.success("You are logout successfully");
+                              logout();
+                            }}
+                          >
+                            Logout
+                          </Link>
+                        </li>
+                      </>
+                    ) : (
+                      <>
+                        <li>
+                          <Link
+                            to={"/login"}
+                            className="dropdown-item"
+                            style={{
+                              borderRadius: "8px",
+                              padding: "10px 16px",
+                              fontWeight: "500",
+                            }}
+                          >
+                            Login
+                          </Link>
+                        </li>
+                      </>
+                    )}
+                  </ul>
+                </li>
+              </div>
+            </div>
+          </div>
         </header>{" "}
       </div>
     </>

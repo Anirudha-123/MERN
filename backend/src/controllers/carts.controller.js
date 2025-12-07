@@ -102,9 +102,16 @@ const decrementProductQuantity = async (req, res) => {
 
       // }
 
-      if (item.quantity > 1) {
-        item.quantity -= 1;
-      }
+      // if (item.quantity > 1) {
+      //   item.quantity -= 1;
+      // }
+
+      if (item.quantity <= 1) {
+      cart.items = cart.items.filter((i) => i.cartProduct.toString() !== id);
+    } 
+    else {
+      item.quantity -= 1;
+    }
     }
 
     await cart.save();

@@ -157,40 +157,69 @@ const getAllUsers = async (req,res) => {
 }
 
 
-const fetchProfile = async(req, res) =>{
+const fetchProfile = async (req, res) => {
   try {
-    const id = req.user._id
-    const email = req.user.email
-    if(!mongoose.Types.ObjectId.isValid(id)){
-      res.status(404).json({
-        message:"  userName not found"
-      })
+    const userId = req.user._id;
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(404).json({
+        message: "User not found",
+      });
     }
-  
+
     const userProfile = await User.aggregate([
-  // { $match: { _id: new mongoose.Types.ObjectId(id) } },
-  { $match: { email :  email } },
-  {
-    $lookup: {
-      from: "addresses",
-      localField: "_id",
-      foreignField: "userId",
-      as: "userProfile"
+      { $match: { _id: new mongoose.Types.ObjectId(userId) } },
+      {
+        $lookup: {
+          from: "addresses", // make sure this matches your addresses collection name
+          localField: "_id",
+          foreignField: "userId",
+          as: "addresses",
+          pipeline: [
+            {
+              $project: {
+                _id: 0,         // optional, remove _id from address objects
+                fullName: 1,
+                state: 1,
+                city: 1,
+                address: 1,
+                phone: 1,
+                pinCode: 1,
+              },
+            },
+          ],
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          fullName: 1,
+          email: 1,
+          createdAt: 1,
+          updatedAt: 1,
+          addresses: 1,
+        },
+      },
+    ]);
+
+    if (!userProfile || userProfile.length === 0) {
+      return res.status(404).json({
+        message: "Profile not found",
+      });
     }
-  }
-]);
 
-  
-    res.status(201).json({
-     userProfile,
-      message:"user profile fetch successfully"
-    })
-  
+    res.status(200).json({
+      user: userProfile[0], // aggregate returns an array
+      message: "User profile fetched successfully",
+    });
   } catch (error) {
-    console.error(error)
-    
+    console.error(error);
+    res.status(500).json({
+      message: "Internal server error",
+    });
   }
+};
 
-}
+
 
 export { addUser, userlogin, singleUser, updateUser,deleteuser,getAllUsers, fetchProfile}

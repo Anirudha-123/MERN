@@ -5,6 +5,7 @@ import {route} from "./src/route/user.route.js"
 import {route1} from "./src/route/product.route.js"
 import cartsRouter from "./src/route/carts.route.js"
 import addressRouter from "./src/route/address.route.js"
+import orderRouter from "./src/route/order.route.js"
 import cors from "cors"
 
 
@@ -28,6 +29,7 @@ app.use("/api/user", route)
 app.use("/api/product", route1)
 app.use("/api/carts/demo", cartsRouter)
 app.use("/api/address", addressRouter)
+app.use("/api/order", orderRouter)
 
 app.get("/", (req, res) =>{
   res.send("welcom to the backend server")

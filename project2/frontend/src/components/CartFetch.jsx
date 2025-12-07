@@ -140,13 +140,32 @@
 
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CartFetch = () => {
+  console.log("Cart component loaded");
+
+  const navigate = useNavigate();
+
   const [data, setData] = useState([]);
   const token = JSON.parse(localStorage.getItem("token"));
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
+
   let totalPrice = data.reduce(
-    (acc, val) => acc + Number(val.cartProduct.price) * Number(val.quantity),
+    (acc, val) => {
+  // Check if cartProduct exists
+  if (val.cartProduct && val.cartProduct.price) {
+    return acc + Number(val.cartProduct.price) * Number(val.quantity);
+  } else {
+    return acc; // skip if cartProduct is null
+  }
+},
     0
   );
 
@@ -209,24 +228,6 @@ const CartFetch = () => {
     }
   };
 
-  // const removeCart = async (id) => {
-  //   try {
-  //     const response = await axios.delete(
-  //       `http://localhost:3000/api/carts/demo/decrement/${id}`,
-
-  //       {
-  //         headers: {
-  //           Authorization: "Bearer " + token,
-  //         },
-  //       }
-  //     );
-
-  //     getUserCart();
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
   const removeCart = async (id) => {
     try {
       const response = await axios.delete(
@@ -242,6 +243,10 @@ const CartFetch = () => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleProceedToCheckout = () => {
+    navigate("/checkout");
   };
 
   return (
@@ -382,7 +387,7 @@ const CartFetch = () => {
             </div>
           </>
         )}
-      </div> */}
+      </div>  */}
 
       <div
         className="container"
@@ -463,7 +468,7 @@ const CartFetch = () => {
                           }}
                         >
                           <img
-                            src={item.cartProduct.img1}
+                            src={item.cartProduct?.img1}
                             alt="productImg"
                             className="img-fluid"
                             style={{
@@ -491,7 +496,7 @@ const CartFetch = () => {
                               letterSpacing: "0.5px",
                             }}
                           >
-                            {item.cartProduct.name}
+                            {item.cartProduct?.name}
                           </h5>
                           <p
                             style={{
@@ -502,7 +507,7 @@ const CartFetch = () => {
                               fontFamily: "Georgia, serif",
                             }}
                           >
-                            ₹{item.cartProduct.price}
+                            ₹{item.cartProduct?.price}
                           </p>
                         </div>
                       </div>
@@ -710,7 +715,7 @@ const CartFetch = () => {
                           margin: "0",
                         }}
                       >
-                        −₹{discount}
+                        −₹{discount.toFixed(2)}
                       </p>
                     </div>
 
@@ -746,7 +751,7 @@ const CartFetch = () => {
                           fontFamily: "Georgia, serif",
                         }}
                       >
-                        ₹{totalAmount}
+                        ₹{totalAmount.toFixed(0)}
                       </p>
                     </div>
 
@@ -777,6 +782,7 @@ const CartFetch = () => {
                         e.currentTarget.style.boxShadow =
                           "0 8px 25px rgba(212,175,55,0.4)";
                       }}
+                      onClick={handleProceedToCheckout}
                     >
                       Proceed to Checkout
                     </button>

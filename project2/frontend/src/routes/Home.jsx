@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
+
   const heroImages = ["/hero3.png", "/hero.png", "/hero4.jpg"];
 
   const navigate = useNavigate();
@@ -92,6 +99,7 @@ const Home = () => {
                     src={img}
                     className="d-block w-100"
                     alt="hotel"
+                     loading="lazy"
                     style={{ height: "600px", objectFit: "cover" }}
                   />
                 </div>
@@ -232,6 +240,7 @@ const Home = () => {
                 <img
                   src={item.image}
                   alt=""
+                   loading="lazy"
                   className=""
                   style={{
                     width: "100%",
@@ -287,6 +296,7 @@ const Home = () => {
                 <img
                   src={item.image}
                   alt=""
+                   loading="lazy"
                   className=""
                   style={{ width: "100%", height: "400px", objectFit: "cover" }}
                 />
@@ -347,6 +357,7 @@ const Home = () => {
                 <img
                   src={item.image}
                   alt=""
+                   loading="lazy"
                   className=""
                   style={{
                     width: "100%",

@@ -110,8 +110,20 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const Products = () => {
+
+  console.log("Products component loaded");
+
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+
+
+  useEffect(() => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+}, []);
+
 
   const token = JSON.parse(localStorage.getItem("token"));
 

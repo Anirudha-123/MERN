@@ -4,6 +4,8 @@ const addAddress = async(req, res) =>{
 try {
   const userId = req.user._id
   const { phone, city, state, address, pinCode }= req.body
+
+  console.log(req.body)
   if( !phone || !city || !state || !address || !pinCode){
     res.status(401).json({
       message: " All fileds are required"
@@ -42,4 +44,28 @@ try {
 
 
 }
-export { addAddress }
+
+const getAddress = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    if (!userId) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const address = await Address.findOne({ userId }).populate("userId", "name email"); 
+    // "name email" → fields you want from User model
+
+    if (!address) {
+      return res.status(404).json({ message: "Address not found" });
+    }
+
+    res.status(200).json(address);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export { addAddress,getAddress }
