@@ -32,7 +32,7 @@ const Checkout = () => {
 
   async function getUserCart(params) {
     try {
-      const response = await axios.get("http://localhost:3000/api/carts/demo", {
+      const response = await axios.get("https://mern-backend-oe29.onrender.com/api/carts/demo", {
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -103,7 +103,7 @@ const Checkout = () => {
       let token = JSON.parse(localStorage.getItem("token"));
 
       const response = await axios.post(
-        "http://localhost:3000/api/address",
+        "https://mern-backend-oe29.onrender.com/api/address",
         form,
         {
           headers: {
@@ -132,7 +132,7 @@ const Checkout = () => {
   const fetchAddress = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3000/api/user/userprofile",
+        "https://mern-backend-oe29.onrender.com/api/user/userprofile",
         {
           headers: {
             Authorization: "Bearer " + token,
