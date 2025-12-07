@@ -161,7 +161,7 @@ const Products = () => {
         );
 
         // setData(response.data.products);
-        setData(response.data.data || []);
+        setData(response.data.products || []);
 
         setLoading(false);
       } catch (error) {
