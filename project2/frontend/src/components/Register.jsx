@@ -16,7 +16,7 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:3000/api/user", form);
+      const res = await axios.post("mern-gamma-swart.vercel.app/api/user", form);
 
       // alert("register successfully");
       toast.success("user register successfully");
