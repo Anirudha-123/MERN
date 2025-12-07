@@ -29,7 +29,7 @@ const Login = () => {
     try {
       console.log(form);
       const response = await axios.post(
-        "http://localhost:3000/api/user/login",
+        "mern-gamma-swart.vercel.app/api/user/login",
         form,
         {
           headers: {
