@@ -38,6 +38,6 @@ app.get("/", (req, res) =>{
   res.send("welcom to the backend server")
 })
 
-app.listen(3000, ()=>{
+app.listen( process.env.PORT || 3000, ()=>{
   console.log("server start")
 })
