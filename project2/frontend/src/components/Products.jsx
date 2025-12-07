@@ -125,7 +125,9 @@ const Products = () => {
 }, []);
 
 
-  const token = JSON.parse(localStorage.getItem("token"));
+  // const token = JSON.parse(localStorage.getItem("token") );
+  const token = JSON.parse(localStorage.getItem("token") || "null");
+
 
   const addToCartProduct = async (productId) => {
     try {
