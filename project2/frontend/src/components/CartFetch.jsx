@@ -175,7 +175,7 @@ const CartFetch = () => {
 
   async function getUserCart(params) {
     try {
-      const response = await axios.get(" https://mern-backend-oe29.onrender.com/api/carts/demo", {
+      const response = await axios.get("https://mern-backend-oe29.onrender.com/api/carts/demo", {
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -195,7 +195,7 @@ const CartFetch = () => {
   const incrementQty = async (id) => {
     try {
       const response = await axios.post(
-        ` https://mern-backend-oe29.onrender.com/api/carts/demo/${id}`,
+        `https://mern-backend-oe29.onrender.com/api/carts/demo/${id}`,
         {},
         {
           headers: {
