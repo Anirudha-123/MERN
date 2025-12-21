@@ -26,7 +26,7 @@ const Header = () => {
             {" "}
             <Link to={"/"}>
               <img
-                src="/logo3.png"
+                src="/logo4.png"
                 className="ms-5"
                 alt="logo"
                 style={{ height: "50px" }}
