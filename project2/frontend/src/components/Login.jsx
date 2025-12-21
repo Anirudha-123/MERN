@@ -5,6 +5,7 @@ import { useUser } from "../context/AuthContext";
 // import { useUser } from "../contexts/UserContext";
 
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 const Login = () => {
   const { login } = useUser();
@@ -21,7 +22,6 @@ const Login = () => {
   // const redirect = location.state?.from ?? "/home";
 
   const redirect = location.state?.from?.pathname || "/";
-
 
   // const { handleLogin } = useUser();
 
