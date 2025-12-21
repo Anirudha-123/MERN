@@ -17,7 +17,7 @@ const OrderSuccess = () => {
   const getorder = async (params) => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/order/latest",
+        "https://mern-backend-oe29.onrender.com/api/order/latest",
         {
           headers: {
             Authorization: "Bearer " + token,
