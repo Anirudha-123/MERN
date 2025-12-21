@@ -16,7 +16,7 @@ const Products = () => {
 
     try {
       const response = await axios.get(
-        "https://mern-8tqb.onrender.com/api/product/getProducts"
+        "https://mern-backend-oe29.onrender.com/api/product/getProducts"
       );
 
       setProductData(response.data.products);
