@@ -253,7 +253,7 @@ const ProductDetails = () => {
             </button>
              <button
               className="btn btn-danger "
-              onClick={() => navigate("/cart")}
+              onClick={() => navigate("/cartFetch")}
             >
               Go To Cart
             </button> 
