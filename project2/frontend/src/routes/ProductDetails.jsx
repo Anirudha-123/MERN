@@ -251,6 +251,12 @@ const ProductDetails = () => {
             >
               Add To Cart
             </button>
+             <button
+              className="btn btn-danger "
+              onClick={() => navigate("/cart")}
+            >
+              Go To Cart
+            </button> 
             {/* <button
               className="buyNow ms-3 px-4"
               onClick={() => handleBuy(fetchData._id)}
