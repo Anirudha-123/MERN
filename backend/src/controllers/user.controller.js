@@ -178,8 +178,8 @@ const fetchProfile = async (req, res) => {
           pipeline: [
             {
               $project: {
-                _id: 0,         // optional, remove _id from address objects
-                fullName: 1,
+                _id: 1,         // optional, remove _id from address objects
+                userName: 1,
                 state: 1,
                 city: 1,
                 address: 1,

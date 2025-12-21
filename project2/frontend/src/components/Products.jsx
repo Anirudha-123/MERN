@@ -1,317 +1,303 @@
-// import axios from "axios";
-// import React, { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
-
-// const Products = () => {
-//   const [data, setData] = useState([]);
-
-//   const navigate = useNavigate();
-//   useEffect(() => {
-//     async function fetch() {
-//       const res = await axios.get(
-//         "http://localhost:3000/api/product/getProducts"
-//       );
-
-//       console.log(res);
-//       setData(res.data.products);
-//     }
-
-//     fetch();
-//   }, []);
-//   console.log("dataaaa", data);
-
-//   async function addProductToCart(productId) {
-//     const rawToken = localStorage.getItem("token");
-//     const token = rawToken ? JSON.parse(rawToken) : null;
-
-//     if (!token) {
-//       alert("Token not found! Please login again.");
-//       return;
-//     }
-//     try {
-//       const res = await axios.post(
-//         "http://localhost:3000/api/carts/demo",
-//         {
-//           cartProduct: productId,
-//           quantity: 1,
-//         },
-//         {
-//           headers: {
-//             Authorization: "Bearer " + token,
-//           },
-//         }
-//       );
-
-//       // console.log(typeof res.data.items[0]);
-
-//       console.log("cart Fetch : ", res);
-//       console.log("cart Fetch : ", res.data.cart);
-//       console.log("cart Fetch items : ", res.data.cart.items);
-//       console.log(
-//         "cart Fetch cartProduct : ",
-//         res.data.cart.items[0].cartProduct
-//       );
-//       console.log(
-//         "cart Fetch cartProduct qty : ",
-//         res.data.cart.items[0].quantity
-//       );
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   }
-
-//   return (
-//     <>
-//       <div className="container">
-//         <div className="row" style={{ marginTop: "150px" }}>
-//           {data.map((item) => (
-//             <div className="col-md-3 mb-4" key={item._id}>
-//               <div className="card shadow-sm h-100 border-0 rounded-4">
-//                 <img
-//                   src={item.img1}
-//                   alt={item.name}
-//                   className="card-img-top rounded-top-4"
-//                   style={{ height: "250px", objectFit: "cover" }}
-//                 />
-
-//                 <div className="card-body">
-//                   <h5 className="card-title fw-semibold">{item.name}</h5>
-//                   {/* <p className="text-muted" style={{ fontSize: "0.9rem" }}>
-//                     {item.desc.substring(0, 50)}...
-//                   </p> */}
-
-//                   <h5 className="text-danger fw-bold text-center mb-3">
-//                     ₹{item.price}
-//                   </h5>
-
-//                   <div className="text-center">
-//                     <button
-//                       className="btn btn-primary px-4"
-//                       // onClick={() => addToCart(item)}
-//                       onClick={() => addProductToCart(item._id)}
-//                     >
-//                       Add To Cart
-//                     </button>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           ))}
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default Products;
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Products = () => {
-
-  console.log("Products component loaded");
-
-  const [data, setData] = useState([]);
+  const [productData, setProductData] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState([]);
+  const [selectedSubCategory, setSelectedSubCategory] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const navigate = useNavigate();
 
-  useEffect(() => {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
-}, []);
+  const fetchAllProducts = async (params) => {
+    // const token = JSON.parse(localStorage.getItem("token"))
 
-
-  const token = JSON.parse(localStorage.getItem("token"));
-
-  const addToCartProduct = async (productId) => {
     try {
-      const response = await axios.post(
-        `http://localhost:3000/api/carts/demo`,
-        {
-          cartProduct: productId,
-          quantity: 1,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
+      const response = await axios.get(
+        "http://localhost:3000/api/product/getProducts"
       );
 
-      toast.success("product added to cart");
+      setProductData(response.data.products);
     } catch (error) {
-      console.error(error);
+      toast.error("failed to fetch products");
+    } finally {
+      setLoading(false);
     }
   };
 
-  useEffect(() => {
-    async function fetchAllProducts() {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/api/product/getProducts",
-          {
-            headers: {
-              Authorization: "Bearer " + token,
-            },
-          }
-        );
+  // useEffect(() => {
+  //   fetchAllProducts();
+  // }, []);
 
-        setData(response.data.products);
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    fetchAllProducts();
+  useEffect(() => {
+    const loadData = async () => {
+      await fetchAllProducts();
+
+      const savedCategories = JSON.parse(
+        localStorage.getItem("selectedCategory")
+      );
+      if (savedCategories) setSelectedCategory(savedCategories);
+
+      const savedSubCategories = JSON.parse(
+        localStorage.getItem("selectedSubCategory")
+      );
+      if (savedSubCategories) setSelectedSubCategory(savedSubCategories);
+    };
+
+    loadData();
   }, []);
+
+  const filterdData = productData.filter((item) => {
+    // const catMatch = selectedCategory
+    //   ? item.category === selectedCategory
+    //   : true;
+    // const subMatch = selectedSubCategory
+    //   ? item.subCategory === selectedSubCategory
+    //   : true;
+
+    const catMatch =
+      selectedCategory.length > 0
+        ? selectedCategory.includes(item.category)
+        : true;
+
+    const subMatch =
+      selectedSubCategory.length > 0
+        ? selectedSubCategory.includes(item.subCategory)
+        : true;
+
+    return catMatch && subMatch;
+  });
+
+  //   const handleCategoryChange = (value) => {
+  //   setSelectedCategory((prev) =>
+  //     prev.includes(value)
+  //       ? prev.filter((cat) => cat !== value)
+  //       : [...prev, value]
+
+  //   );
+
+  // };
+
+  // const handleSubCategoryChange = (value) => {
+  //   setSelectedSubCategory((prev) =>
+  //     prev.includes(value)
+  //       ? prev.filter((cat) => cat !== value)
+  //       : [...prev, value]
+  //   );
+  // };
+
+  const handleAllSubCategory = () => {
+    setSelectedSubCategory([]);
+  };
+
+  const handleCategoryChange = (value) => {
+    setSelectedCategory((prev) => {
+      const newSelected = prev.includes(value)
+        ? prev.filter((cat) => cat !== value)
+        : [...prev, value];
+
+      localStorage.setItem("selectedCategory", JSON.stringify(newSelected));
+      return newSelected;
+    });
+  };
+
+  const handleSubCategoryChange = (value) => {
+    setSelectedSubCategory((prev) => {
+      const newSelected = prev.includes(value)
+        ? prev.filter((cat) => cat !== value)
+        : [...prev, value];
+
+      localStorage.setItem("selectedSubCategory", JSON.stringify(newSelected));
+      return newSelected;
+    });
+  };
 
   if (loading) {
     return (
-      <h3 className="text-center " style={{ marginTop: "150px" }}>
-        Loading Products...
-      </h3>
+      <div
+        style={{
+          minHeight: "100vh", // full viewport height
+          display: "flex",
+          alignItems: "center", // vertical center
+          justifyContent: "center", // horizontal center
+        }}
+      >
+        <div className="page-loader">
+          <h3>Loading...</h3>
+        </div>
+      </div>
     );
   }
 
   return (
     <>
-      {/* <div className="container">
-        <div className="row" style={{ marginTop: "130px" }}>
-          <h2 className="text-center mb-5">Collection</h2>
-
-          {data.map((item, index) => (
-            <div className="col-md-3 mb-5" key={index}>
-              <div className="card rounded border h-100 shadow-sm ">
-                <img
-                  src={item.img1}
-                  alt="product Img"
-                  className="img-fluid"
-                  style={{ height: "300px", objectFit: "cover" }}
-                />
-
-                <div className="card-body">
-                  <h4>{item.name}</h4>
-                  <p>₹ {item.price}</p>
-
-                  <button className="btn btn-outline-secondary">
-                    Add To Cart
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div> */}
-      <div className="container">
-        <div className="row" style={{ marginTop: "120px" }}>
-          <h2
-            className="text-center mb-5"
+      <div className="conatiner">
+        <div className="d-flex mx-3" style={{ marginTop: "120px" }}>
+          <div
+            className="col-md-2 "
             style={{
-              fontFamily: "Playfair Display, serif",
-              fontSize: "2.8rem",
-              fontWeight: "300",
-              letterSpacing: "8px",
-              color: "#1a1a1a",
-              textTransform: "uppercase",
-              marginBottom: "60px",
-              position: "relative",
-              paddingBottom: "25px",
+              position: "sticky",
+              top: "120px",
+
+              left: "20px",
+              width: "220px",
+              overflowY: "auto",
+              maxHeight: "calc(100vh - 320px)",
+
+              background: "#fff",
+              padding: "20px",
+              borderRadius: "10px",
+              border: "1px solid #ddd",
+              boxShadow: "0px 4px 12px rgba(0,0,0,0.08)",
             }}
           >
-            Our Collection
-            <span
-              style={{
-                display: "block",
-                width: "60px",
-                height: "2px",
-                background: "#d4af37",
-                margin: "20px auto 0",
-              }}
-            ></span>
-          </h2>
+            <h4 className="mb-3">Category</h4>
 
-          {data.map((item, index) => (
-            <div className="col-md-3 mb-5" key={index}>
-              <div
-                className="card border-0 h-100 shadow-lg"
-                style={{
-                  borderRadius: "0px",
-                  overflow: "hidden",
-                  transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-10px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 15px 30px rgba(0,0,0,0.2)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 5px 15px rgba(0,0,0,0.1)";
-                }}
-              >
-                <img
-                  src={item.img1}
-                  alt="product Img"
-                  loading="lazy"
-                  className="img-fluid"
-                  style={{
-                    height: "260px",
-                    width: "100%",
-                    objectFit: "cover",
-                  }}
-                />
+            <label className="d-block mb-2">
+              <input
+                type="checkbox"
+                className="me-2"
+                checked={selectedCategory.includes("men")}
+                onChange={() => handleCategoryChange("men")}
+              />
+              Men
+            </label>
 
-                <div
-                  className="card-body text-center"
-                  style={{
-                    background: "#f8f9fc",
-                    padding: "25px",
-                  }}
-                >
-                  <h4 className="fw-semibold" style={{ color: "#333" }}>
-                    {item.name}
-                  </h4>
+            <label className="d-block mb-2">
+              <input
+                type="checkbox"
+                className="me-2"
+                name="category"
+                checked={selectedCategory.includes("women")}
+                onChange={() => handleCategoryChange("women")}
+              />
+              Women
+            </label>
 
-                  <p
-                    className="mt-2 mb-4"
-                    style={{
-                      fontSize: "1.2rem",
-                      fontWeight: "600",
-                      color: "#0c0c0dff",
-                    }}
+            <label className="d-block mb-3">
+              <input
+                type="checkbox"
+                className="me-2"
+                checked={selectedCategory.includes("kids")}
+                onChange={() => handleCategoryChange("kids")}
+              />
+              Kids
+            </label>
+
+            <hr />
+
+            <h4 className="mb-3">Subcategory</h4>
+
+            <label className="d-block mb-2">
+              <input
+                type="checkbox"
+                className="me-2"
+                checked={selectedSubCategory.includes("shirt")}
+                onChange={() => handleSubCategoryChange("shirt")}
+              />
+              Shirt
+            </label>
+
+            <label className="d-block mb-2">
+              <input
+                type="checkbox"
+                className="me-2"
+                checked={selectedSubCategory.includes("t-shirt")}
+                onChange={() => handleSubCategoryChange("t-shirt")}
+              />
+              T-shirt
+            </label>
+
+            <label className="d-block mb-2">
+              <input
+                type="checkbox"
+                className="me-2"
+                checked={selectedSubCategory.includes("short")}
+                onChange={() => handleSubCategoryChange("short")}
+              />
+              Short
+            </label>
+          </div>
+
+          <div className="flex-grow-1 ms-4 ">
+            <div className="row">
+              {filterdData?.map((item, index) => (
+                <div className="col-md-3 mb-3" key={index}>
+                  <div
+                    className="card h-100 shadow-sm  border rounded"
+                    onClick={() => navigate(`/product/${item._id}`)}
                   >
-                    ₹ {item.price}
-                  </p>
+                    {/* <div className="text-center">
+                       <img
+                      src={item?.img1}
+                      alt="itemImg"
+                      className="img-fluid"
+                      style={{ height: "380px", objectFit: "cover" }}
+                    />
+                    </div> */}
 
-                  <button
-                    className="btn"
-                    style={{
-                      background: "#c07c52ff",
-                      color: "white",
-                      padding: "10px 20px",
-                      borderRadius: "10px",
-                      fontWeight: "600",
-                      transition: "0.3s",
-                    }}
-                    onMouseEnter={(e) =>
-                      (e.target.style.background = "#4f47d8")
-                    }
-                    onMouseLeave={(e) =>
-                      (e.target.style.background = "#6c63ff")
-                    }
-                    onClick={() => addToCartProduct(item._id)}
-                  >
-                    Add To Cart
-                  </button>
+                    <div
+                      className="text-center product-image-container-with-overlay 
+                      "
+                    >
+                      <img
+                        src={item?.img1}
+                        alt="itemImg"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: item?.useBg ? "cover" : "contain",
+                        }}
+                      />
+                    </div>
+
+                    <div className="card-body">
+                      <h5 style={{ fontFamily: "math" }}>{item.name}</h5>
+
+                      <p style={{ fontSize: "17px", margin: 0 }}>
+                        <span style={{ fontWeight: "600", color: "#111" }}>
+                          ₹{item.price}
+                        </span>
+
+                        {item.originalPrice && (
+                          <>
+                            <span
+                              style={{
+                                textDecoration: "line-through",
+                                color: "#9e9e9e",
+                                marginLeft: "8px",
+                                fontSize: "15px",
+                              }}
+                            >
+                              ₹{item.originalPrice}
+                            </span>
+
+                            <span
+                              style={{
+                                color: "#0fa958",
+                                fontWeight: "600",
+                                marginLeft: "8px",
+                                fontSize: "15px",
+                              }}
+                            >
+                              {Math.round(
+                                ((item.originalPrice - item.price) /
+                                  item.originalPrice) *
+                                  100
+                              )}
+                              % OFF
+                            </span>
+                          </>
+                        )}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </>

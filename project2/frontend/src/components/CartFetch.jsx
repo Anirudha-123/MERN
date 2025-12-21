@@ -1,143 +1,3 @@
-// import axios from "axios";
-// import React, { useEffect, useState } from "react";
-
-// const CartFetch = () => {
-//   const [data, setData] = useState([]);
-
-//   // const totalPrice = data.reduce(
-//   //   (acc, item) => acc + Number(item.cartProduct.price) * Number(item.quantity),
-//   //   0
-//   // );
-
-//   // console.log(totalPrice);
-
-//   async function fetchData(params) {
-//     const rawToken = localStorage.getItem("token");
-//     const token = rawToken ? JSON.parse(rawToken) : null;
-
-//     if (!token) {
-//       alert("Token not found! Please login again.");
-//       return;
-//     }
-//     try {
-//       const res = await axios.get("http://localhost:3000/api/carts/demo", {
-//         headers: {
-//           Authorization: "Bearer " + token,
-//         },
-//       });
-
-//       console.log("cart Fetch : ", res);
-//       console.log("cart Fetch : ", res.data.cart);
-//       console.log("cart Fetch items : ", res.data.cart.items);
-//       console.log(
-//         "cart Fetch cartProduct : ",
-//         res.data.cart.items[0].cartProduct
-//       );
-//       console.log(
-//         "cart Fetch cartProduct qty : ",
-//         res.data.cart.items[0].quantity
-//       );
-
-//       setData(res.data.cart.items);
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   }
-
-//   useEffect(() => {
-//     fetchData();
-//   }, []);
-
-//   async function handleSubmit(id) {
-//     try {
-//       const rawToken = localStorage.getItem("token");
-//       const token = rawToken ? JSON.parse(rawToken) : null;
-
-//       if (!token) {
-//         alert("Token not found! Please login again.");
-//         return;
-//       }
-
-//       const res = await axios.post(
-//         `http://localhost:3000/api/carts/demo/${id}`,
-//         {},
-//         {
-//           headers: {
-//             Authorization: "Bearer " + token,
-//           },
-//         }
-//       );
-
-//       fetchData(); // Refresh UI
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   }
-
-//   return (
-//     <>
-//       <div className="container">
-//         <div className="row mt-5" style={{ marginTop: "140px" }}>
-//           <h2 className="mt-5">Your Cart</h2>
-
-//           {data.length === 0 && <p>No items in cart</p>}
-
-//           {/* {data.map((item) => (
-//             <div className="col-md-3 mt-3" key={item._id}>
-//               <div className="card p-2">
-//                 <img
-//                   src={item.cartProduct.img1}
-//                   alt={item.cartProduct.name}
-//                   style={{ height: "200px", objectFit: "cover" }}
-//                 />
-//                 <h5 className="mt-2">{item.cartProduct.name}</h5>
-
-//                 <p>Price: ₹{item.cartProduct?.price}</p>
-
-//                 <button
-//                   className="btn btn-sm btn-outline-success"
-//                   onClick={() => handleSubmit(item.cartProduct._id)}
-//                 >
-//                   +
-//                 </button>
-//                 <p>Quantity: {item.quantity}</p>
-//                 <button className="btn btn-sm btn-outline-danger">-</button>
-//               </div>
-//             </div>
-//           ))} */}
-
-//           {data.map((item) =>
-//             item.cartProduct ? (
-//               <div className="col-md-3 mt-3" key={item._id}>
-//                 <div className="card p-2">
-//                   <img
-//                     src={item.cartProduct.img1}
-//                     alt={item.cartProduct.name}
-//                     style={{ height: "200px", objectFit: "cover" }}
-//                   />
-//                   <h5 className="mt-2">{item.cartProduct.name}</h5>
-//                   <p>Price: ₹{item.cartProduct.price}</p>
-
-//                   <button
-//                     className="btn btn-sm btn-outline-success"
-//                     onClick={() => handleSubmit(item.cartProduct._id)}
-//                   >
-//                     +
-//                   </button>
-//                   <p>Quantity: {item.quantity}</p>
-//                   <button className="btn btn-sm btn-outline-danger">-</button>
-//                 </div>
-//               </div>
-//             ) : null
-//           )}
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default CartFetch;
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -146,6 +6,7 @@ const CartFetch = () => {
   console.log("Cart component loaded");
 
   const navigate = useNavigate();
+  const [loading ,setLoading] = useState(true)
 
   const [data, setData] = useState([]);
   const token = JSON.parse(localStorage.getItem("token"));
@@ -157,23 +18,26 @@ const CartFetch = () => {
     });
   }, []);
 
-  let totalPrice = data.reduce(
-    (acc, val) => {
-  // Check if cartProduct exists
-  if (val.cartProduct && val.cartProduct.price) {
-    return acc + Number(val.cartProduct.price) * Number(val.quantity);
-  } else {
-    return acc; // skip if cartProduct is null
-  }
-},
-    0
-  );
+  let totalPrice = data.reduce((acc, val) => {
+    // Check if cartProduct exists
+    if (val.cartProduct && val.cartProduct.price) {
+      return acc + Number(val.cartProduct.price) * Number(val.quantity);
+    } else {
+      return acc; // skip if cartProduct is null
+    }
+  }, 0);
 
   let discount = totalPrice * 0.1;
 
   let totalAmount = totalPrice - discount;
 
   async function getUserCart(params) {
+
+
+      if (!token) {
+      navigate("/login");
+      return;
+    }
     try {
       const response = await axios.get("http://localhost:3000/api/carts/demo", {
         headers: {
@@ -183,6 +47,7 @@ const CartFetch = () => {
 
       console.log(response);
       setData(response.data.cart.items);
+      setLoading(false)
     } catch (error) {
       console.error(error);
     }
@@ -191,6 +56,26 @@ const CartFetch = () => {
   useEffect(() => {
     getUserCart();
   }, []);
+
+
+  
+  if (loading) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh", // full viewport height
+          display: "flex",
+          alignItems: "center", // vertical center
+          justifyContent: "center", // horizontal center
+        }}
+      >
+        <div className="page-loader">
+          <h3 className="mt-5">Loading...</h3>
+        </div>
+      </div>
+    );
+  }
+
 
   const incrementQty = async (id) => {
     try {
@@ -477,6 +362,7 @@ const CartFetch = () => {
                               objectFit: "cover",
                               transition: "transform 0.3s ease",
                             }}
+                            onClick={() => navigate(`/product/${item.cartProduct?._id}`)}
                             onMouseEnter={(e) =>
                               (e.currentTarget.style.transform = "scale(1.05)")
                             }
@@ -528,51 +414,6 @@ const CartFetch = () => {
                           className="btn btn-sm fw-bold"
                           style={{
                             background:
-                              "linear-gradient(135deg, #28a745 0%, #20c997 100%)",
-                            color: "#fff",
-                            border: "none",
-                            width: "35px",
-                            height: "35px",
-                            borderRadius: "50%",
-                            fontSize: "1.2rem",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            boxShadow: "0 4px 12px rgba(40,167,69,0.3)",
-                            transition: "all 0.3s ease",
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.transform = "scale(1.1)";
-                            e.currentTarget.style.boxShadow =
-                              "0 6px 20px rgba(40,167,69,0.4)";
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.transform = "scale(1)";
-                            e.currentTarget.style.boxShadow =
-                              "0 4px 12px rgba(40,167,69,0.3)";
-                          }}
-                          onClick={() => incrementQty(item.cartProduct._id)}
-                        >
-                          +
-                        </button>
-
-                        <p
-                          style={{
-                            margin: "0",
-                            fontSize: "1.2rem",
-                            fontWeight: "700",
-                            minWidth: "30px",
-                            textAlign: "center",
-                            color: "#2c2c2c",
-                          }}
-                        >
-                          {item.quantity}
-                        </p>
-
-                        <button
-                          className="btn btn-sm fw-bold"
-                          style={{
-                            background:
                               "linear-gradient(135deg, #6c757d 0%, #5a6268 100%)",
                             color: "#fff",
                             border: "none",
@@ -599,6 +440,51 @@ const CartFetch = () => {
                           onClick={() => decrementQty(item.cartProduct._id)}
                         >
                           −
+                        </button>
+
+                        <p
+                          style={{
+                            margin: "0",
+                            fontSize: "1.2rem",
+                            fontWeight: "700",
+                            minWidth: "30px",
+                            textAlign: "center",
+                            color: "#2c2c2c",
+                          }}
+                        >
+                          {item.quantity}
+                        </p>
+
+                        <button
+                          className="btn btn-sm fw-bold"
+                          style={{
+                            background:
+                              "linear-gradient(135deg, #28a745 0%, #20c997 100%)",
+                            color: "#fff",
+                            border: "none",
+                            width: "35px",
+                            height: "35px",
+                            borderRadius: "50%",
+                            fontSize: "1.2rem",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            boxShadow: "0 4px 12px rgba(40,167,69,0.3)",
+                            transition: "all 0.3s ease",
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = "scale(1.1)";
+                            e.currentTarget.style.boxShadow =
+                              "0 6px 20px rgba(40,167,69,0.4)";
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = "scale(1)";
+                            e.currentTarget.style.boxShadow =
+                              "0 4px 12px rgba(40,167,69,0.3)";
+                          }}
+                          onClick={() => incrementQty(item.cartProduct._id)}
+                        >
+                          +
                         </button>
                       </div>
 
@@ -647,6 +533,7 @@ const CartFetch = () => {
                     top: "150px",
                     background:
                       "linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)",
+
                     padding: "40px 35px",
                     borderRadius: "20px",
                     boxShadow: "0 15px 50px rgba(0,0,0,0.3)",

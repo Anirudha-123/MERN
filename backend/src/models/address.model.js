@@ -25,6 +25,10 @@ const addressSchema = mongoose.Schema({
   state:{
     type:String,
     required:true
+  },
+  userName:{
+    type:String,
+    required:true
   }
 })
 const Address = mongoose.model("Address", addressSchema)

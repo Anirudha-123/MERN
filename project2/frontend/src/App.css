@@ -21,9 +21,9 @@
 
 .section3{
 
-  background-color: rgba(196, 175, 164, 0.5) !important;
+  /* background-color: rgba(218, 196, 185, 0.5) !important; */
 
-  border-top: 50% !important;
+  border-top: 10% !important;
 }
 
 .section3 card{
@@ -39,7 +39,7 @@
 
 .card:hover{
 
-  transform: scale(1.06);
+  transform: scale(1.03);
 }
 
 .ho:hover{
@@ -85,9 +85,8 @@
    border-radius: 10%;
 }
 
-
+/* 
 .add-to-bag {
-  background-color: #198754; /* Myntra pink */
   color: white;
   border: none;
   padding: 10px 25px;
@@ -96,7 +95,32 @@
   border-radius: 2px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
+} */
+
+.add-to-bag {
+  background-color: #198754; /* Myntra green */
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.3s ease;
 }
+
+
+.add-to-bag:active {
+  transform: scale(1.1);
+}
+
+
+.buyNow:active {
+  transform: scale(1.1);
+}
+
+
+
 
 
 .buyNow {
@@ -155,15 +179,166 @@
 
 html {
   scroll-behavior: smooth;
+  
 }
+
+body {
+  overflow-x: hidden;
+}
+
 
 
 
 .payment{
 
-  background-color: rgba(255, 248, 240, 0.95);
+  /* background-color: rgba(237, 230, 221, 0.813) */
+
+  background: whitesmoke;
 
 }
 
 
+html{
+
+  scrollbar-gutter: stable;
+}
+
+
+
+.myntra-place-order-btn {
+  background-color: #ff3f6c;   /* Myntra pink/red */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 14px 0;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.myntra-place-order-btn:hover {
+  background-color: #e2345d;  /* Slightly darker on hover */
+}
+
+.myntra-place-order-btn:active {
+  transform: scale(0.98);
+}
+
+
+
+
+.shop-men {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.shop-men h2 {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.shop-men p {
+  font-size: 15px;
+  color: #666;
+  margin: 0;
+}
+
+
+
+
+
+.page-loader {
+  min-height: calc(100vh - 160px); /* adjust if header+footer height differs */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.header-nav {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 500 !important;
+  font-size: 18px !important;
+  letter-spacing: 0.4px;
+  
+;
+}
+
+.cart-icon {
+  color: #dc3545;
+  margin-right: 20px;
+  transition: transform 0.2s ease;
+}
+
+.cart-icon:hover {
+  transform: scale(1.1);
+}
+
+
+
+
+
+.product-image-container-with-overlay {
+  position: relative; 
+  height: 380px; /* Match image height or define your desired container height */
+  /* Other styles for the container */
+}
+
+.product-image-container-with-overlay::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.03); 
+  pointer-events: none; /* Allows clicks to pass through to the image */
+  
+}
+
+/*  */
+
+.product-image-container-with-overlay {
+  position: relative; 
+  height: 380px;
+  /* background-color: #f5f5f5; Default grey background */
+}
+
+.product-image-container-with-overlay.full-bg {
+  background-color: transparent; /* No background for useBg images */
+}
+
+.product-image-container-with-overlay::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.03); 
+  pointer-events: none;
+}
+
+/* 
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: brightness(0) invert(1);
+  width: 2rem;
+  height: 3rem;
+} */
+
+
+.premium-header {
+  background: rgba(250, 250, 250, 0.96); /* premium white */
+  color: #111827;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(17, 24, 39, 0.06);
+}
 

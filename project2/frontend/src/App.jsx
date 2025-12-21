@@ -3,6 +3,8 @@
 // import Footer from "./components/Footer.jsx";
 // import Header from "./components/Header.jsx";
 
+// Footer
+
 // import Home from "./routes/Home.jsx";
 
 // import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -114,8 +116,6 @@
 
 // export default App;
 
-
-
 // import { lazy, Suspense } from "react";
 // import "./App.css";
 // import Footer from "./components/Footer.jsx";
@@ -218,8 +218,6 @@
 
 // export default App;
 
-
-
 import { lazy, Suspense } from "react";
 import "./App.css";
 import Header from "./components/Header.jsx";
@@ -231,6 +229,9 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 import ProtectedAuthRoute from "./components/ProtectedAuthRoute.jsx";
+import OrderSuccess from "./components/OrderSuccess.jsx";
+import Layout from "./components/Layout.jsx";
+import ProductChecking from "./pages/ProductChecking.jsx";
 
 // Lazy loaded components
 const Home = lazy(() => import("./routes/Home.jsx"));
@@ -238,7 +239,9 @@ const Products = lazy(() => import("./components/Products.jsx"));
 const ProductDetails = lazy(() => import("./routes/ProductDetails.jsx"));
 const Collections = lazy(() => import("./routes/Collections.jsx"));
 const Categories = lazy(() => import("./routes/Categories.jsx"));
-const CategoryProductsHome = lazy(() => import("./routes/CategoryProductsHome.jsx"));
+const CategoryProductsHome = lazy(() =>
+  import("./routes/CategoryProductsHome.jsx")
+);
 const Cart = lazy(() => import("./routes/Cart.jsx"));
 const Checkout = lazy(() => import("./routes/Checkout.jsx"));
 const Orders = lazy(() => import("./routes/Orders.jsx"));
@@ -264,153 +267,251 @@ function App() {
       <AuthProvider>
         <CartProvider>
           <Router>
-            <Header />
+            {/* <Header /> */}
+
             <ScrollToTop />
             <Routes>
-              <Route
-                path="/"
-                element={
-                  <Suspense fallback={  <div style={{ marginTop: "100px" ,fontSize:"25px",fontWeight:"bold"}}>
-          <Loader message="Loading Home..." />
-        </div>}>
-                    <Home />
-                  </Suspense>
-                }
-              />
-              <Route
-                path="*"
-                element={
-                  <Suspense fallback={<Loader message="Loading Home..." />}>
-                    <Home />
-                  </Suspense>
-                }
-              />
-              <Route
-                path="/register"
-                element={
-                  <ProtectedAuthRoute>
-                    <Suspense fallback={<Loader message="Loading Register..." />}>
-                      <Register />
+              <Route element={<Layout />}>
+
+              <Route path="/productsCheck" element={<ProductChecking></ProductChecking>}></Route>
+                <Route
+                  path="/"
+                  element={
+                    <Suspense
+                      fallback={
+                        <div
+                          style={{
+                            marginTop: "200px",
+                            marginBottom: "200px",
+                            fontSize: "25px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          <Loader message="Loading Home..." />
+                        </div>
+                      }
+                    >
+                      <Home />
                     </Suspense>
-                  </ProtectedAuthRoute>
-                }
-              />
-              <Route
-                path="/login"
-                element={
-                  <ProtectedAuthRoute>
-                    <Suspense fallback={<Loader message="Loading Login..." />}>
-                      <Login />
+                  }
+                />
+                <Route
+                  path="*"
+                  element={
+                    <Suspense fallback={<Loader message="Loading Home..." />}>
+                      <Home />
                     </Suspense>
-                  </ProtectedAuthRoute>
-                }
-              />
-              <Route
-                path="/products"
-                element={
-                  <Suspense fallback={<Loader message="Loading Products..." />}>
-                    <Products />
-                  </Suspense>
-                }
-              />
-              <Route
-                path="/product/:id"
-                element={
-                  <Suspense fallback={<Loader message="Loading Product Details..." />}>
-                    <ProductDetails />
-                  </Suspense>
-                }
-              />
-              <Route
-                path="/collections"
-                element={
-                  <Suspense fallback={<Loader message="Loading Collections..." />}>
-                    <Collections />
-                  </Suspense>
-                }
-              />
-              <Route
-                path="/collections/:category/:type"
-                element={
-                  <Suspense fallback={<Loader message="Loading Categories..." />}>
-                    <Categories />
-                  </Suspense>
-                }
-              />
-              <Route
-                path="/category/:category"
-                element={
-                  <Suspense fallback={<Loader message="Loading Category Products..." />}>
-                    <CategoryProductsHome />
-                  </Suspense>
-                }
-              />
-              <Route
-                path="/cart"
-                element={
-                  <Suspense fallback={<Loader message="Loading Cart..." />}>
-                    <Cart />
-                  </Suspense>
-                }
-              />
-              <Route
-                path="/checkout"
-                element={
-                  <Suspense fallback={<Loader message="Loading Checkout..." />}>
-                    <Checkout />
-                  </Suspense>
-                }
-              />
-              <Route
-                path="/orders"
-                element={
-                  <Suspense fallback={<Loader message="Loading Orders..." />}>
-                    <Orders />
-                  </Suspense>
-                }
-              />
-              <Route
-                path="/about"
-                element={
-                  <Suspense fallback={<Loader message="Loading About Us..." />}>
-                    <Aboutus />
-                  </Suspense>
-                }
-              />
-              <Route
-                path="/profile"
-                element={
-                  <Suspense fallback={<Loader message="Loading Profile..." />}>
-                    <Profile />
-                  </Suspense>
-                }
-              />
-              <Route
-                path="/logout"
-                element={
-                  <Suspense fallback={<Loader message="Logging Out..." />}>
-                    <Logout />
-                  </Suspense>
-                }
-              />
-              <Route
-                path="/addProduct"
-                element={
-                  <Suspense fallback={<Loader message="Loading Add Product..." />}>
-                    <AddNewProduct />
-                  </Suspense>
-                }
-              />
-              <Route
-                path="/cartFetch"
-                element={
-                  <Suspense fallback={<Loader message="Loading Cart Fetch..." />}>
-                    <CartFetch />
-                  </Suspense>
-                }
-              />
+                  }
+                />
+                <Route
+                  path="/register"
+                  element={
+                    <ProtectedAuthRoute>
+                      <Suspense
+                        fallback={<Loader message="Loading Register..." />}
+                      >
+                        <Register />
+                      </Suspense>
+                    </ProtectedAuthRoute>
+                  }
+                />
+                <Route
+                  path="/login"
+                  element={
+                    <ProtectedAuthRoute>
+                      <Suspense
+                        fallback={<Loader message="Loading Login..." />}
+                      >
+                        <Login />
+                      </Suspense>
+                    </ProtectedAuthRoute>
+                  }
+                />
+                <Route
+                  path="/products"
+                  element={
+                    // <Suspense
+                    //   fallback={<Loader message="Loading Products..." />}
+                    // >
+                    //   <Products />
+                    // </Suspense>
+                    <Suspense
+                      fallback={
+                        <div
+                          style={{
+                            minHeight: "1800px", // full viewport height
+                            display: "flex",
+                            alignItems: "center", // vertical center
+                            justifyContent: "center",
+                          }}
+                        >
+                        <span className="page-loader fw-bold"> <Loader message="Loading ..." /></span> 
+                        </div>
+                      }
+                    >
+                      <Products />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="/product/:id"
+                  element={
+                    // <Suspense
+                    //   fallback={<Loader message="Loading Product Details..." />}
+                    // >
+                    //   <ProductDetails />
+                    // </Suspense>
+                     <Suspense
+                      fallback={
+                        <div
+                          style={{
+                            minHeight: "1800px", // full viewport height
+                            display: "flex",
+                            alignItems: "center", // vertical center
+                            justifyContent: "center",
+                          }}
+                        >
+                        <span className="page-loader fw-bold"> <Loader message="Loading ..." /></span> 
+                        </div>
+                      }
+                    >
+                      <ProductDetails />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="/collections"
+                  element={
+                    // <Suspense fallback={<Loader message="Loading Collections..." />}>
+                    //   <Collections />
+                    // </Suspense>
+                    <Suspense
+                      fallback={
+                        <div
+                          style={{
+                            marginTop: "300px",
+                            fontSize: "25px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          <Loader message="Loading Collection..." />
+                        </div>
+                      }
+                    >
+                      <Collections />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="/collections/:category/:type"
+                  element={
+                    <Suspense
+                      fallback={<Loader message="Loading Categories..." />}
+                    >
+                      <Categories />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="/category/:category"
+                  element={
+                    <Suspense
+                      fallback={
+                        <Loader message="Loading Category Products..." />
+                      }
+                    >
+                      <CategoryProductsHome />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="/cart"
+                  element={
+                    <Suspense fallback={<Loader message="Loading Cart..." />}>
+                      <Cart />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="/checkout"
+                  element={
+                    <Suspense
+                      fallback={<Loader message="Loading Checkout..." />}
+                    >
+                      <Checkout />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="/orders"
+                  element={
+                    <Suspense fallback={<Loader message="Loading Orders..." />}>
+                      <Orders />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="/about"
+                  element={
+                    <Suspense
+                      fallback={<Loader message="Loading About Us..." />}
+                    >
+                      <Aboutus />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <Suspense
+                      fallback={<Loader message="Loading Profile..." />}
+                    >
+                      <Profile />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="/logout"
+                  element={
+                    <Suspense fallback={<Loader message="Logging Out..." />}>
+                      <Logout />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="/addProduct"
+                  element={
+                    <Suspense
+                      fallback={<Loader message="Loading Add Product..." />}
+                    >
+                      <AddNewProduct />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="/cartFetch"
+                  element={
+                    <Suspense
+                      fallback={<Loader message="Loading Cart Fetch..." />}
+                    >
+                      <CartFetch />
+                    </Suspense>
+                  }
+                />
+
+                <Route
+                  path="/orderSuccess"
+                  element={
+                    <Suspense
+                      fallback={<Loader message="Loading Cart Fetch..." />}
+                    >
+                      <OrderSuccess></OrderSuccess>
+                    </Suspense>
+                  }
+                />
+              </Route>
             </Routes>
-            <Footer />
+            {/* <Footer /> */}
           </Router>
         </CartProvider>
       </AuthProvider>
@@ -419,5 +520,3 @@ function App() {
 }
 
 export default App;
-
-

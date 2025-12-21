@@ -4,7 +4,7 @@ const data = [
       {
         shirt: [
           {
-            id: 101,
+            _id: 101,
             name: "Men  Plain Cotton Shirt",
             img: ["/shirt7.jpg"],
             desc: `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Placeat  ?`,
@@ -294,11 +294,8 @@ const data = [
 
 export const allProducts = data.flatMap((genderObj) =>
   Object.values(genderObj).flatMap((categoryArray) =>
-    categoryArray.flatMap((categoryObj) =>
-      Object.values(categoryObj).flat()
-    )
+    categoryArray.flatMap((categoryObj) => Object.values(categoryObj).flat())
   )
 );
-
 
 export default data;

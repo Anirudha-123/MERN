@@ -9,26 +9,57 @@ import { toast } from "react-toastify";
 import { useEffect } from "react";
 const Checkout = () => {
   const [paymentMethod, setPaymentMethod] = useState("");
+  const [userName, setUserName] = useState([]);
+  const [addresses, setAddresses] = useState([]);
+  const [cartId, setCartId] = useState("");
+  const [selectedAddressId, setSelectedAddressId] = useState("");
+  const [showAdd, setShowAdd] = useState(false);
+  const [totalPriceAmount, setTotalAmount] = useState("");
 
   const navigate = useNavigate();
-  const [data, setData] = useState([]);
+  const [cart, setCart] = useState([]);
   const token = JSON.parse(localStorage.getItem("token"));
 
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  }, []);
+  // let totalPrice = cart.reduce(
+  //   (acc, val) => acc + Number(val.cartProduct.price) * Number(val.quantity),
+  //   0
+  // );
 
-  let totalPrice = data.reduce(
-    (acc, val) => acc + Number(val.cartProduct.price) * Number(val.quantity),
-    0
-  );
-
+  let totalPrice = cart.reduce((acc, val) => {
+    // Check if cartProduct exists
+    if (val.cartProduct && val.cartProduct.price) {
+      return acc + Number(val.cartProduct.price) * Number(val.quantity);
+    } else {
+      return acc; // skip if cartProduct is null
+    }
+  }, 0);
   let discount = totalPrice * 0.1;
-
   let totalAmount = totalPrice - discount;
+
+  useEffect(() => {
+    setTotalAmount(totalAmount.toFixed(0));
+  }, [cart]);
+
+  console.log("total amount :", totalPriceAmount);
+
+  const handlePayment = (e) => {
+    const value = e.target.value;
+    setPaymentMethod(value);
+    console.log("selected : ", value);
+  };
+
+  const [form, setForm] = useState({
+    phone: "",
+    city: "",
+    state: "",
+    address: "",
+    pinCode: "",
+    userName: "",
+  });
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   async function getUserCart(params) {
     try {
@@ -39,64 +70,35 @@ const Checkout = () => {
       });
 
       console.log(response);
-      setData(response.data.cart.items);
+      setCart(response.data.cart.items);
+      setCartId(response.data.cart._id); // <-- ADD THIS
     } catch (error) {
       console.error(error);
     }
   }
 
-  // useEffect(() => {
-  //   getUserCart();
-  // }, []);
+  const fetchAddress = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:3000/api/user/userprofile",
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
 
-  const [form, setForm] = useState({
-    phone: "",
-    city: "",
-    state: "",
-    address: "",
-    pinCode: "",
-  });
+      console.log("res address", res.data.user.addresses);
+      console.log("res userName", res.data.user.fullName);
+      setUserName(res.data.user.fullName);
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  // const handleSubmit = async (e) => {
-  //   e.prevenDefault();
-
-  //   try {
-  //     toast.success("Order successful! Thank you for shopping with us 🌟");
-
-  //     navigate("/orders");
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  const handlePayment = (e) => {
-    const value = e.target.value;
-    setPaymentMethod(value);
-    console.log("selected : ", value);
-  };
-
-  const handleorder = () => {
-    if (!paymentMethod) {
-      alert("Please select payment method ");
-
-      return;
+      setAddresses(res.data.user.addresses);
+    } catch (error) {
+      console.log(error);
     }
-
-    const { phone, city, state, address, pinCode } = form;
-    if (!phone || !city || !state || !address || !pinCode) {
-      toast.error("Please fill in your address before placing the order");
-      return;
-    }
-    console.log("Order placed with payment:", paymentMethod);
-
-    navigate("/orders");
   };
 
-  const handleSubmit = async (e) => {
+  const addAddress = async (e) => {
     e.preventDefault();
 
     try {
@@ -120,31 +122,19 @@ const Checkout = () => {
 
       toast.success("address saved successfully");
       fetchAddress();
+      setShowAdd(false);
 
-      setForm({ phone: "", city: "", pinCode: "", state: "", address: "" });
+      setForm({
+        phone: "",
+        city: "",
+        pinCode: "",
+        state: "",
+        address: "",
+        userName: "",
+      });
     } catch (error) {
       console.error(error);
       toast.error("failed to saved address");
-    }
-  };
-
-  const [addresses, setAddresses] = useState([]);
-  const fetchAddress = async () => {
-    try {
-      const res = await axios.get(
-        "http://localhost:3000/api/user/userprofile",
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
-
-      console.log("res address", res);
-
-      setAddresses(res.data.userProfile[0].userProfile);
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -153,11 +143,44 @@ const Checkout = () => {
     fetchAddress();
   }, []);
 
+  const handleorder = async () => {
+    console.log("addresses", addresses);
+    if (!paymentMethod) return toast.error("Please select payment method");
+
+    console.log(selectedAddressId);
+    if (!selectedAddressId) return toast.error("Please select an address");
+    if (!cartId) return toast.error("Cart not found");
+
+    console.log("Sending addressId:", selectedAddressId); // should be a valid ObjectId
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/order",
+        {
+          addressId: selectedAddressId,
+          cartId: cartId,
+          totalAmount: totalPriceAmount,
+          paymentMethod: "COD",
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      // toast.success("Order placed successfully!");
+      console.log("order", response);
+      navigate("/orderSuccess");
+    } catch (error) {
+      console.error("Order error:", error);
+      alert("Failed to place order");
+    }
+  };
+
+  
+
   return (
     <>
       <div className="container">
         <div className="row  " style={{ marginTop: "100px" }}>
-          <div className="col-md-6">
+          {/* <div className="col-md-6">
             <div
               className="mx-auto shadow-lg rounded-4 p-4 mb-4"
               style={{
@@ -173,7 +196,7 @@ const Checkout = () => {
                 Shipping Address
               </h2>
 
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleorder}>
                 <div className="mb-3">
                   <input
                     type="text"
@@ -233,6 +256,7 @@ const Checkout = () => {
                   type="submit"
                   className="btn btn-primary w-100 rounded-pill py-2"
                   style={{ fontSize: "1.1rem", fontWeight: "500" }}
+                  onClick={addAddress}
                 >
                   Save Address
                 </button>
@@ -268,6 +292,232 @@ const Checkout = () => {
                 </div>
               ))
             )}
+          </div> */}
+
+          <div className="col-md-6 ">
+            <div className=" rounded-4 p-4 mb-4 border">
+              <div className="d-flex justify-content-between align-items-center">
+                <span>
+                  {" "}
+                  <h4 className=" mb-1" style={{ fontFamily: "emoji" }}>
+                    Shipping Address
+                  </h4>
+                </span>
+
+                <span>
+                  <button
+                    className="add-to-bag px-4" 
+                    onClick={() => setShowAdd((prev) => !prev)}
+                  >
+                    {" "}
+                   + Add New Address
+                  </button>
+                </span>
+              </div>
+
+              {showAdd && (
+                // <form onSubmit={addAddress}>
+                //   <div className="mb-3">
+                //     <input
+                //       type="text"
+                //       name="userName"
+                //       value={form.userName}
+                //       onChange={handleChange}
+                //       className="form-control rounded-pill px-3 py-2"
+                //       placeholder="Enter your name here.."
+                //     />
+                //   </div>
+                //   <div className="mb-3">
+                //     <input
+                //       type="text"
+                //       name="city"
+                //       value={form.city}
+                //       onChange={handleChange}
+                //       className="form-control rounded-pill px-3 py-2"
+                //       placeholder="City"
+                //     />
+                //   </div>
+
+                //   <div className="mb-3">
+                //     <input
+                //       type="text"
+                //       name="state"
+                //       value={form.state}
+                //       onChange={handleChange}
+                //       className="form-control rounded-pill px-3 py-2"
+                //       placeholder="State"
+                //     />
+                //   </div>
+
+                //   <div className="mb-3">
+                //     <input
+                //       type="number"
+                //       name="pinCode"
+                //       value={form.pinCode}
+                //       onChange={handleChange}
+                //       className="form-control rounded-pill px-3 py-2"
+                //       placeholder="Pincode"
+                //     />
+                //   </div>
+
+                //   <div className="mb-3">
+                //     <input
+                //       type="number"
+                //       name="phone"
+                //       value={form.phone}
+                //       onChange={handleChange}
+                //       className="form-control rounded-pill px-3 py-2"
+                //       placeholder="Phone"
+                //     />
+                //   </div>
+
+                //   <div className="mb-4">
+                //     <textarea
+                //       name="address"
+                //       value={form.address}
+                //       onChange={handleChange}
+                //       className="form-control rounded-3 px-3 py-2"
+                //       placeholder="Full address"
+                //       rows="3"
+                //     ></textarea>
+                //   </div>
+
+                //   <button
+                //     type="submit"
+                //     className="btn btn-primary w-100 rounded-pill py-2"
+                //   >
+                //     Save Address
+                //   </button>
+                // </form>
+                <form onSubmit={addAddress}>
+  <div className="mb-3 mt-3">
+    <input
+      type="text"
+      name="userName"
+      value={form.userName}
+      onChange={handleChange}
+      className="form-control rounded-pill px-3 py-2"
+      placeholder="Full Name"
+    />
+  </div>
+
+  <div className="row mb-3 g-3">
+    <div className="col-md-6">
+      <input
+        type="text"
+        name="city"
+        value={form.city}
+        onChange={handleChange}
+        className="form-control rounded-pill px-3 py-2"
+        placeholder="City"
+      />
+    </div>
+    <div className="col-md-6">
+      <input
+        type="text"
+        name="state"
+        value={form.state}
+        onChange={handleChange}
+        className="form-control rounded-pill px-3 py-2"
+        placeholder="State"
+      />
+    </div>
+  </div>
+
+  <div className="row mb-3 g-3">
+    <div className="col-md-6">
+      <input
+        type="number"
+        name="phone"
+        value={form.phone}
+        onChange={handleChange}
+        className="form-control rounded-pill px-3 py-2"
+        placeholder="Mobile Number"
+      />
+    </div>
+    <div className="col-md-6">
+      <input
+        type="email"
+        name="email"
+        value={form.email}
+        onChange={handleChange}
+        className="form-control rounded-pill px-3 py-2"
+        placeholder="Email Address"
+      />
+    </div>
+  </div>
+
+  <div className="mb-3">
+    <input
+      type="number"
+      name="pinCode"
+      value={form.pinCode}
+      onChange={handleChange}
+      className="form-control rounded-pill px-3 py-2"
+      placeholder="Pincode"
+    />
+  </div>
+
+  <div className="mb-4">
+    <textarea
+      name="address"
+      value={form.address}
+      onChange={handleChange}
+      className="form-control rounded-3 px-3 py-2"
+      placeholder="Full Address"
+      rows="3"
+    ></textarea>
+  </div>
+
+  <button
+    type="submit"
+    className="btn btn-primary w-100 rounded-pill py-2"
+  >
+    Save Address
+  </button>
+</form>
+
+              )}
+            </div>
+
+            {addresses.length === 0 ? (
+              <p className="text-muted">No address found.</p>
+            ) : (
+              addresses.map((addr) => (
+                <div
+                  key={addr._id}
+                  className="border rounded-3 p-3 mb-3 shadow-sm text-secondary payment"
+                >
+                  <div>
+                    <h5 className="ms-3 m-3" style={{ color: "black" }}>
+                      {addr?.userName || userName}
+                    </h5>
+                  </div>
+                  <input
+                    type="radio"
+                    name="selectedAddressId"
+                    value={addr._id}
+                    checked={selectedAddressId === addr._id}
+                    onChange={() => setSelectedAddressId(addr._id)}
+                    className="form-check-input me-2"
+                  />
+                  {addr.address}, <br />
+                  <span className="ms-4 mt-1 mb-3">
+                    {" "}
+                    {addr.city}, {addr.state} ,{addr.pinCode}
+                  </span>{" "}
+                  <br />
+                  <div className="ms-4 mt-4">
+                    {" "}
+                    Mobile:{" "}
+                    <b style={{ fontSize: "14px", color: "#444444" }}>
+                      {" "}
+                      {addr.phone}
+                    </b>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
 
           <div
@@ -276,55 +526,20 @@ const Checkout = () => {
               overflowY: "auto",
             }}
           >
-            <h2 className="mb-4 text-center">Payment</h2>
+            <h2
+              className="mb-4 text-center mb-2"
+              style={{ fontFamily: "emoji" }}
+            >
+              Payment
+            </h2>
 
-            <div className="mb-4">
-              {data.map((item, index) => (
-                <div
-                  className="border rounded p-2 mb-3 shadow-sm"
-                  key={index}
-                  style={{ background: "#fafafa" }}
-                >
-                  <div className="d-flex justify-content-between">
-                    <div>
-                      <p className="mb-1">{item.cartProduct.name}</p>
-                      {/* <p className="mb-1">
-                        <b>Size:</b> {item.size}
-                      </p> */}
+            <div className="mb-4"></div>
 
-                      {/* <div className="d-flex align-items-center mt-2">
-                        <b>Qty:</b>
-                        <select
-                          value={item.qty}
-                          className="form-select w-auto ms-3"
-                          onChange={(e) => update(item, e.target.value)}
-                        >
-                          {[1, 2, 3, 4, 5].map((qty) => (
-                            <option value={qty} key={qty}>
-                              {qty}
-                            </option>
-                          ))}
-                        </select>
-                      </div> */}
-                    </div>
-                    <div className="img">
-                      <img
-                        src={item.cartProduct.img1}
-                        alt=""
-                        style={{
-                          height: "100px",
-                          objectFit: "cover",
-                          marginTop: "00px",
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="border rounded p-3 shadow-sm" style={{backgroundColor:"white"}} >
-              <h5 className="text-center mb-3">Price Summary</h5>
+            <div
+              className="border rounded p-3 shadow-sm"
+              style={{ backgroundColor: "white" }}
+            >
+              {/* <h5 className="text-center mb-3">Price Summary</h5> */}
 
               <div className="d-flex justify-content-between mb-2">
                 <span>Total MRP:</span>
@@ -344,23 +559,92 @@ const Checkout = () => {
               </div>
             </div>
 
+           
+
             <div className="mt-4">
               <h5>Select Payment Method</h5>
-              <select
-                name="payment"
-                className="form-select w-50 mt-2"
-                value={paymentMethod}
-                onChange={handlePayment}
-              >
-                <option value="">Choose...</option>
-                <option value="gpay">Google Pay</option>
-                <option value="paytm">Paytm</option>
-                <option value="cod">Cash On Delivery</option>
-              </select>
+              <div className="d-flex gap-3 mt-2">
+                {/* Google Pay */}
+                <div
+                  className={`p-3  rounded d-flex align-items-center gap-2 flex-fill ${
+                    paymentMethod === "gpay" ? "border-primary bg-light" : ""
+                  }`}
+                  onClick={() => setPaymentMethod("gpay")}
+                  style={{ cursor: "pointer" }}
+                >
+                  <input
+                    type="radio"
+                    name="payment"
+                    value="gpay"
+                    checked={paymentMethod === "gpay"}
+                    onChange={() => setPaymentMethod("gpay")}
+                  />
+                  <img
+                    src="/gpay2.png" // replace with your Google Pay icon path
+                    alt="Google Pay"
+                    style={{
+                      width: "130px",
+                      height: "35px",
+                      objectFit: "cover",
+                    }}
+                  />
+                  {/* <span>Google Pay</span> */}
+                </div>
+
+                {/* Paytm */}
+                <div
+                  className={`p-3  rounded d-flex align-items-center gap-2 flex-fill ${
+                    paymentMethod === "paytm" ? "border-primary bg-light" : ""
+                  }`}
+                  onClick={() => setPaymentMethod("paytm")}
+                  style={{ cursor: "pointer" }}
+                >
+                  <input
+                    type="radio"
+                    name="payment"
+                    value="paytm"
+                    checked={paymentMethod === "paytm"}
+                    onChange={() => setPaymentMethod("paytm")}
+                  />
+                  <img
+                    src="/payTm.png" // replace with your Paytm icon path
+                    alt="Paytm"
+                    style={{ width: "100px", height: "35px" }}
+                  />
+                  {/* <span>Paytm</span> */}
+                </div>
+
+                {/* Cash on Delivery */}
+                <div
+                  className={`p-3  rounded d-flex align-items-center gap-2 flex-fill ${
+                    paymentMethod === "cod" ? "border-primary bg-light" : ""
+                  }`}
+                  onClick={() => setPaymentMethod("cod")}
+                  style={{ cursor: "pointer" }}
+                >
+                  <input
+                    type="radio"
+                    name="payment"
+                    value="cod"
+                    checked={paymentMethod === "cod"}
+                    onChange={() => setPaymentMethod("cod")}
+                  />
+                  <img
+                    src="/cod.jpg" // replace with your COD icon path
+                    alt="Cash On Delivery"
+                    style={{
+                      width: "100px",
+                      height: "30px",
+                      objectFit: "cover",
+                    }}
+                  />
+                  {/* <span>Cash On Delivery</span> */}
+                </div>
+              </div>
             </div>
 
             <button
-              className="btn btn-success w-100 mt-4"
+              className="myntra-place-order-btn  w-100 mt-4"
               onClick={handleorder}
               style={{ height: "50px", fontSize: "18px" }}
             >

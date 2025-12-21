@@ -15,7 +15,13 @@ const Login = () => {
 
   const location = useLocation();
 
-  const redirect = location.state?.from ?? "/home";
+  // const redirect = location.state?.from ?? "/home";
+
+  // const from = location.state?.from?.pathname || "/";
+  // const redirect = location.state?.from ?? "/home";
+
+  const redirect = location.state?.from?.pathname || "/";
+
 
   // const { handleLogin } = useUser();
 
@@ -44,7 +50,10 @@ const Login = () => {
 
       login(response.data.user);
       localStorage.setItem("token", JSON.stringify(response.data.token));
-      navigate(redirect);
+      // navigate(redirect);
+      // navigate(from, { replace: true });
+      navigate(redirect, { replace: true });
+
       return response.data.user;
     } catch (error) {
       console.error(error);

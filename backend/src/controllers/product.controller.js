@@ -3,16 +3,34 @@ import { User } from "../models/user.model.js"
 
 const addProduct = async (req,res) => {
   try {  
-    const {name,desc,price,img1,img2,img3, category, subCategory } = req.body
+    const {name,desc,price, category, subCategory ,originalPrice,useBg} = req.body
 
 
-      if (!name || !desc || !price || !img1 || !img2 || !img3 || !category || !subCategory) {
+      // if (!name || !desc || !price || !img1 || !img2 || !img3 || !category || !subCategory) {
          
-        return  res.status(401).json({message:"All fields are required"})
-      }
+      //   return  res.status(401).json({message:"All fields are required"})
+      // }
+
+       if (
+      !name ||
+      !desc ||
+      !price ||
+      !category ||
+      !subCategory ||
+      !req.files?.img1 ||
+      !req.files?.img2 ||
+      !req.files?.img3
+    ) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const img1 = req.files.img1[0].path;
+    const img2 = req.files.img2[0].path;
+    const img3 = req.files.img3[0].path;
+
 
       const newProduct = await Product.create({
-         name,desc,price,img1,img2,img3, category, subCategory
+         name,desc,price,img1,img2,img3, category, subCategory,originalPrice,useBg
       })
 
 
@@ -114,34 +132,94 @@ const deleteAllProducts = async (req,res) => {
 }
 
 
-const updateProduct = async (req,res) => {
+// const updateProduct = async (req,res) => {
   
-   try {
+//    try {
 
 
-       const products = req.body
+//        const products = req.body
 
 
-       const update =     await Product.findByIdAndUpdate(req.params.id,{$set:products},
-        {new:true})
+//        const update =     await Product.findByIdAndUpdate(req.params.id,{$set:products},
+//         {new:true})
 
-        if (!update) {
+//         if (!update) {
           
-                  res.status(404).json({message:" product not update"})
+//                   res.status(404).json({message:" product not update"})
 
-        }
+//         }
 
 
-                res.status(201).json({message:"product update successfully"})
+//                 res.status(201).json({message:"product update successfully"})
 
     
-   } catch (error) {
+//    } catch (error) {
     
-     console.error(error)
-   }
+//      console.error(error)
+//    }
   
   
+//   }
+
+
+// const updateProduct = async (req, res) => {
+//   try {
+//     const updateData = { ...req.body }; // all text fields
+
+//     // If a file is uploaded, update the img1 field
+//     if (req.file) {
+//       updateData.img1 = req.file.filename; // or the path: `uploads/${req.file.filename}`
+//     }
+
+//     const updatedProduct = await Product.findByIdAndUpdate(
+//       req.params.id,
+//       { $set: updateData },
+//       { new: true }
+//     );
+
+//     if (!updatedProduct) {
+//       return res.status(404).json({ message: "Product not updated" });
+//     }
+
+//     res.status(200).json({ message: "Product updated successfully", product: updatedProduct });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Server error", error });
+//   }
+// };
+
+
+const updateProduct = async (req, res) => {
+  try {
+    const updateData = { ...req.body }; // text fields
+
+    // If a new image file is uploaded
+    if (req.file) {
+      // req.file.path contains the Cloudinary URL
+      updateData.img1 = req.file.path; // or req.file.secure_url
+    }
+
+    const updatedProduct = await Product.findByIdAndUpdate(
+      req.params.id,
+      { $set: updateData },
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({ message: "Product not updated" });
+    }
+
+    res.status(200).json({
+      message: "Product updated successfully",
+      product: updatedProduct,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error", error });
   }
+};
+
+
 
 
 

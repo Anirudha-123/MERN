@@ -1,7 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaTruck, FaBoxOpen, FaFlag, FaTshirt } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const Home = () => {
+  const itemsPerPage = 4;
+
+  const [startIndex, setStartIndex] = useState(0);
+
+  const handleNext = () => {
+    if (startIndex + itemsPerPage < banner3.length) {
+      setStartIndex(startIndex + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (startIndex > 0) {
+      setStartIndex(startIndex - 1);
+    }
+  };
+
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -9,19 +27,54 @@ const Home = () => {
     });
   }, []);
 
-  const heroImages = ["/hero3.png", "/hero.png", "/hero4.jpg"];
+  // const heroImages = ["/banner1.jpg", "/hero3.png", "/hero4.jpg"];
+
+  const heroImages = [
+    { type: "video", src: "/heroVideo.mp4" }, // first slide
+    // { type: "image", src: "/banner1.jpg" }, // first slide
+    { type: "image", src: "/hero4.png" },
+    { type: "image", src: "/banner5.jpg" },
+    // { type: "image", src: "/hero4.jpg" },
+  ];
+
+  const banner3 = [
+    { id: 106, image: "/img1.jpg", name: "Men’s Shirt" },
+    { id: 101, image: "/img2.jpg", name: "Women Crew Neck  Top" },
+    { id: 204, image: "/img3.jpg", name: "Kids Shirt" },
+    { id: 205, image: "/img4.jpg", name: "Men’s winter sweatshirt" },
+    { id: 206, image: "/img5.jpg", name: "Kids T-Shirt" },
+    { id: 107, image: "/img6.jpg", name: "Slim Fit Winter Top" },
+  ];
+
+  const mens = [
+    { id: 106, image: "/img4.jpg" },
+    { id: 101, image: "/img1.jpg" },
+    { id: 204, image: "/p_img8.png" },
+    // { id: 206, image: "/p_img41.png" },
+    { id: 107, image: "/p_img48.png" },
+    { id: 205, image: "/banner7.jpg" },
+  ];
+
+  const womens = [
+    { id: 106, image: "/img2.jpg" },
+    { id: 101, image: "/p_img13.png" },
+    { id: 204, image: "/p_img26.png" },
+    { id: 205, image: "/img6.jpg" },
+    { id: 206, image: "/p_img44.png" },
+    { id: 107, image: "/p_img51.png" },
+  ];
 
   const navigate = useNavigate();
 
   const section3 = [
-    { id: 106, image: "/p_img12.png" },
-    { id: 101, image: "/shirt7.jpg" },
-    { id: 204, image: "/p_img5.png" },
+    { id: 106, image: "/tr1.jpg" },
+    { id: 101, image: "/tr2.png" },
+    { id: 204, image: "/tr4.png" },
     { id: 205, image: "/p_img6.png" },
-    { id: 206, image: "/p_img7.png" },
-    { id: 107, image: "/p_img8.png" },
+    { id: 206, image: "/tr5.png" },
+    { id: 107, image: "/tr7.png" },
     { id: 108, image: "/p_img9.png" },
-    { id: 104, image: "/p_img10.png" },
+    { id: 104, image: "/tr8.png" },
   ];
 
   const section9 = [
@@ -53,16 +106,9 @@ const Home = () => {
 
   return (
     <>
-      <div className="heroSection">
+      {/* <div className="heroSection">
         <div className=" mb-5 ">
-          {/* <div className="mt-5">
-          <img
-            src="/Amsterdam.jpg"
-            alt=""
-            className="image-fluid rounded w-100 mt-5"
-            style={{ maxHeight: "650px", objectFit: "cover" }}
-          />
-        </div> */}
+         
 
           <div
             id="carouselExampleDark"
@@ -70,7 +116,6 @@ const Home = () => {
             data-bs-ride="carousel"
             data-bs-interval="3000"
           >
-            {/* Indicators */}
             <div className="carousel-indicators">
               {heroImages.map((_, index) => (
                 <button
@@ -85,7 +130,6 @@ const Home = () => {
               ))}
             </div>
 
-            {/* Images */}
             <div
               className="carousel-inner"
               style={{ maxHeight: "600px", objectFit: "contain" }}
@@ -106,7 +150,6 @@ const Home = () => {
               ))}
             </div>
 
-            {/* Controls */}
             <button
               className="carousel-control-prev"
               type="button"
@@ -134,35 +177,93 @@ const Home = () => {
             </button>
           </div>
         </div>
+      </div> */}
+
+      <div className="heroSection">
+        <div className="mb-5">
+          <div
+            id="carouselExampleDark"
+            className="carousel carousel-dark slide mb-3"
+            data-bs-ride="carousel"
+            data-bs-interval="3000"
+          >
+            {/* Indicators */}
+            <div className="carousel-indicators">
+              {heroImages.map((_, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  data-bs-target="#carouselExampleDark"
+                  data-bs-slide-to={index}
+                  className={index === 0 ? "active" : ""}
+                  aria-current={index === 0 ? "true" : undefined}
+                  aria-label={`Slide ${index + 1}`}
+                ></button>
+              ))}
+            </div>
+
+            {/* Slides */}
+            <div className="carousel-inner" style={{ maxHeight: "1000px" }}>
+              {heroImages.map((item, index) => (
+                <div
+                  key={index}
+                  className={`carousel-item ${index === 0 ? "active" : ""}`}
+                >
+                  {item.type === "video" ? (
+                    <video
+                      className="d-block w-100"
+                      src={item.src}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      style={{ height: "900px", objectFit: "cover" }}
+                    />
+                  ) : (
+                    <img
+                      src={item.src}
+                      className="d-block w-100"
+                      alt="hero"
+                      loading="lazy"
+                      style={{ height: "900px", objectFit: "cover" }}
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Controls */}
+            <button
+              className="carousel-control-prev"
+              type="button"
+              data-bs-target="#carouselExampleDark"
+              data-bs-slide="prev"
+            >
+              <span className="carousel-control-prev-icon" />
+              <span className="visually-hidden ">Previous</span>
+            </button>
+
+            <button
+              className="carousel-control-next"
+              type="button"
+              data-bs-target="#carouselExampleDark"
+              data-bs-slide="next"
+            >
+              <span className="carousel-control-next-icon" />
+              <span className="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
       </div>
 
-      <div className="section2">
-        <div className="row mx-2 ">
-          {/* <div className="col-md-3">
-            <div className="card" style={{ border: "none" }}>
-              <img src="/p_img48.png" alt="mens" />
-              <h5 className="text-center mt-3">MENS</h5>
-            </div>
-          </div>
-          <div className="col-md-3" style={{ border: "none" }}>
-            {" "}
-            <div className="card" style={{ border: "none" }}>
-              <img src="/p_img37.png" alt="womens" />
-              <h5 className="text-center mt-3">WOMENS</h5>
-            </div>
-          </div>
-          <div className="col-md-3">
-            {" "}
-            <div className="card" style={{ border: "none" }}>
-              <img src="/p_img14.png" alt="kids" />
-              <h5 className="text-center mt-3">KIDS</h5>
-            </div>
-          </div> */}
+      <div className="section2 ">
+        <div className="row mx-2 d-flex justify-content-center align-items-center">
+          
           <div className="col-md-3">
             <div
               className="card"
               style={{ border: "none" }}
-              onClick={() => navigate("/category/mens")}
+              onClick={() => navigate("/category/men")}
             >
               <img src="/p_img48.png" alt="mens" />
               <h5 className="text-center mt-3">MENS</h5>
@@ -173,9 +274,9 @@ const Home = () => {
             <div
               className="card"
               style={{ border: "none" }}
-              onClick={() => navigate("/category/womens")}
+              onClick={() => navigate("/category/women")}
             >
-              <img src="/p_img37.png" alt="womens" />
+              <img src="/img2.jpg" alt="womens" />
               <h5 className="text-center mt-3">WOMENS</h5>
             </div>
           </div>
@@ -191,19 +292,81 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="col-md-3">
+         <div className="col-md-3">
             {" "}
             <div className="card" style={{ border: "none" }}>
               <img src="/p_img36.png" alt="winterwear" />
               <h5 className="text-center mt-3">WINTERWEAR</h5>
             </div>
           </div>
+
+        
+
+        
         </div>
+      </div>
+
+      <div className="banner2 w-100">
+        <img
+          src="/banner2.jpg"
+          alt=""
+          style={{ objectFit: "contain", marginTop: "20px", height: "391px" }}
+        />
+      </div>
+
+      <div className="banner3 ">
+        <img
+          src="/banner3.jpg"
+          alt=""
+          style={{ objectFit: "contain", height: "500px" }}
+        />
+      </div>
+
+      <div className="row mx-4 mt-5 ">
+        {banner3.map((item, index) => (
+          <div className="col-md-4 mb-3" key={index}>
+            <div className="card shadow-sm h-100" style={{ border: "none" }}>
+              <img
+                src={item.image}
+                alt="image"
+                className="img-fluid"
+                style={{ objectFit: "cover", height: "610px" }}
+              />
+
+              <h4
+                style={{
+                  position: "absolute",
+                  bottom: "50px",
+                  left: "20px",
+                  padding: "12px 16px",
+                  fontFamily: "math",
+                  fontWeight: "600",
+                  fontSize: "22px",
+                  color: "#fff",
+
+                  letterSpacing: "0.5px",
+                  maxWidth: "80%",
+                }}
+              >
+                {item.name}
+              </h4>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="">
+        <img
+          src="/banner5.jpg"
+          alt=""
+          className="img-fluid"
+          style={{ objectFit: "contain", marginTop: "40px" }}
+        />
       </div>
 
       {/* <hr style={{ marginInline: "30px", marginTop: "40px" }} /> */}
 
-      <div className="d-flex align-items-center justify-content-center my-4 mt-5">
+      <div className="d-flex align-items-center justify-content-center my-4 mt-4">
         <div
           className="flex-grow-1 border-top border-1 border-success mx-3"
           style={{ maxWidth: "500px", opacity: "0.4" }}
@@ -230,23 +393,23 @@ const Home = () => {
           {section3.map((item, index) => (
             <div
               className="col-md-3"
-              style={{ borderTopRightRadius: "20%" }}
+              // style={{ borderTopRightRadius: "10%" }}
               key={index}
             >
               <div
-                className="card mb-4 mt-4"
-                style={{ borderTopRightRadius: "20%" }}
+                className="card mb-4 mt-3"
+                // style={{ borderTopRightRadius: "20%" }}
               >
                 <img
                   src={item.image}
                   alt=""
-                   loading="lazy"
+                  loading="lazy"
                   className=""
                   style={{
                     width: "100%",
                     height: "400px",
                     objectFit: "cover",
-                    borderTopRightRadius: "15%",
+                    // borderTopRightRadius: "15%",
                   }}
                   onClick={() => navigate(`/product/${item.id}`)}
                 />
@@ -256,14 +419,225 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="section4">
-        <div className="card">
-          <img
-            src="/hero6.png"
-            alt=""
-            style={{ objectFit: "cover", marginTop: "50px" }}
-          />
+      <div className="position-relative">
+        <img
+          src="/banner7.jpg"
+          alt=""
+          style={{ objectFit: "cover", marginTop: "30px" }}
+        />
+
+        <div
+          className="position-absolute text-white"
+          style={{
+            bottom: "180px",
+            left: "60px",
+            maxWidth: "420px",
+            color: "rgba(255,255,255,0.9)", // dark white
+          }}
+        >
+          <p className="fs-3 fw-semibold mb-2">
+            Summer Essentials | <br />
+            Crew Neck T-Shirt
+          </p>
+
+          <p className="fs-5 mb-3" style={{ color: "rgba(255,255,255,0.8)" }}>
+            Long lasting heavy-weight cotton jersey <br />
+            fabric with smooth feel
+          </p>
+
+          <p className="fs-4 fw-bold">₹ 990.00</p>
         </div>
+      </div>
+
+      <div className="shop-men">
+        <h2>Shop Men</h2>
+        <p>Uncover the latest in men's fashion</p>
+      </div>
+
+      <div className=" position-relative me-3">
+        {/* Left Arrow */}
+        <button
+          onClick={handlePrev}
+          disabled={startIndex === 0}
+          style={{
+            position: "absolute",
+            left: "20px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            background: "#fff",
+            border: "1px solid #ddd",
+            borderRadius: "50%",
+            width: "40px",
+            height: "40px",
+            zIndex: 10,
+          }}
+        >
+          <FaChevronLeft />
+        </button>
+
+        {/* Cards Row */}
+        <div className="row  mt-4 ms-1">
+          {mens
+            .slice(startIndex, startIndex + itemsPerPage)
+            .map((item, index) => (
+              <div className="col-md-3 " key={index}>
+                <div
+                  className="card shadow-sm h-100"
+                  style={{ border: "none" }}
+                >
+                  <img
+                    src={item.image}
+                    alt="image"
+                    className="img-fluid"
+                    style={{ objectFit: "cover", height: "450px" }}
+                  />
+                </div>
+              </div>
+            ))}
+        </div>
+
+        {/* Right Arrow */}
+        <button
+          onClick={handleNext}
+          disabled={startIndex + itemsPerPage >= banner3.length}
+          style={{
+            position: "absolute",
+            right: "20px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            background: "#fff",
+            border: "1px solid #ddd",
+            borderRadius: "50%",
+            width: "40px",
+            height: "40px",
+            zIndex: 10,
+          }}
+        >
+          <FaChevronRight />
+        </button>
+      </div>
+
+      {/* <div className="">
+        <img
+          src="/women.jpg"
+          alt=""
+          className="img-fluid"
+          style={{ objectFit: "contain", marginTop: "50px" }}
+        />
+      </div> */}
+      <div className="position-relative mt-5">
+        <img
+          src="/women.jpg"
+          alt="Women Collection"
+          className="img-fluid w-100"
+          style={{ objectFit: "cover", maxHeight: "740px" }}
+        />
+
+        <div
+          className="position-absolute"
+          style={{
+            top: "50%",
+            left: "80px",
+            transform: "translateY(-50%)",
+            maxWidth: "420px",
+            color: "#111",
+          }}
+        >
+          <span
+            className="d-inline-block mb-2 px-2 py-1"
+            style={{
+              fontSize: "12px",
+              backgroundColor: "#e6d8c3",
+              color: "#333",
+              borderRadius: "4px",
+            }}
+          >
+            NEW ARRIVAL
+          </span>
+
+          <h2 className="fs-3 fw-semibold mb-2">
+            Jeans Collection | <br />
+            Bootcut Jeans
+          </h2>
+
+          <p
+            className=" mb-3"
+            style={{ color: "rgba(12, 12, 12, 0.8)", fontSize: "20px" }}
+          >
+            Soft 100% cotton denim <br />
+            with an authentic texture
+          </p>
+
+          <p className="fw-bold" style={{ fontSize: "24px" }}>
+            ₹ 2990.00
+          </p>
+        </div>
+      </div>
+
+      <div className="shop-men">
+        <h2>Shop Women</h2>
+        <p>Uncover the latest in women's fashion</p>
+      </div>
+
+      <div className=" position-relative me-3">
+        {/* Left Arrow */}
+        <button
+          onClick={handlePrev}
+          disabled={startIndex === 0}
+          style={{
+            position: "absolute",
+            left: "20px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            background: "#fff",
+            border: "1px solid #ddd",
+            borderRadius: "50%",
+            width: "40px",
+            height: "40px",
+            zIndex: 10,
+          }}
+        >
+          <FaChevronLeft />
+        </button>
+
+        <div className="row  mt-4 ms-1">
+          {womens
+            .slice(startIndex, startIndex + itemsPerPage)
+            .map((item, index) => (
+              <div className="col-md-3 " key={index}>
+                <div
+                  className="card shadow-sm h-100"
+                  style={{ border: "none" }}
+                >
+                  <img
+                    src={item.image}
+                    alt="image"
+                    className="img-fluid"
+                    style={{ objectFit: "cover", height: "450px" }}
+                  />
+                </div>
+              </div>
+            ))}
+        </div>
+
+        <button
+          onClick={handleNext}
+          disabled={startIndex + itemsPerPage >= banner3.length}
+          style={{
+            position: "absolute",
+            right: "20px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            background: "#fff",
+            border: "1px solid #ddd",
+            borderRadius: "50%",
+            width: "40px",
+            height: "40px",
+            zIndex: 10,
+          }}
+        >
+          <FaChevronRight />
+        </button>
       </div>
 
       {/* <hr style={{ marginInline: "30px", marginTop: "40px" }} />
@@ -292,11 +666,11 @@ const Home = () => {
         <div className="row mx-3">
           {section3.map((item, index) => (
             <div className="col-md-3" key={index}>
-              <div className="card mb-4 mt-3">
+              <div className="card mb-1 mt-3">
                 <img
                   src={item.image}
                   alt=""
-                   loading="lazy"
+                  loading="lazy"
                   className=""
                   style={{ width: "100%", height: "400px", objectFit: "cover" }}
                 />
@@ -306,18 +680,80 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="section7">
-        <div className="card" style={{ border: "none" }}>
+      {/* <div className="section7">
+        <div className="" style={{ border: "none" }}>
           <img
-            src="/hero8.png"
+            src="/banner8.jpg"
             alt=""
+            className="img-fluid mt-4"
             style={{
-              objectFit: "cover",
-              marginTop: "50px",
-              height: "480px",
+              objectFit: "contain",
+
+             
               border: "none",
             }}
           />
+        </div>
+      </div> */}
+
+      <div className="section7 position-relative mt-4">
+        <img
+          src="/banner8.jpg"
+          alt="Kids Heattech"
+          className="img-fluid w-100"
+          style={{
+            objectFit: "cover",
+            maxHeight: "760px",
+          }}
+        />
+
+        {/* Text Overlay */}
+        <div
+          className="position-absolute text-start"
+          style={{
+            top: "50%",
+            left: "70px",
+            transform: "translateY(-50%)",
+            maxWidth: "420px",
+            color: "#111",
+          }}
+        >
+          <span
+            className="d-inline-block mb-2 px-2 py-1"
+            style={{
+              fontSize: "12px",
+              backgroundColor: "#f0f0f0",
+              color: "#333",
+              borderRadius: "4px",
+            }}
+          >
+            HEATTECH
+          </span>
+
+          <h2 className="mb-2" style={{ fontSize: "30px", fontWeight: "500" }}>
+            HEATTECH Collection <br />
+            HEATTECH Scoop Neck T-Shirt
+          </h2>
+
+          <p className="mb-3" style={{ fontSize: "15px", color: "#444" }}>
+            Thin yet warm with heat retention <br />
+            and heat absorption technology
+          </p>
+
+          <p
+            className="mb-1 fw-bold"
+            style={{ fontSize: "26px", color: "#d32f2f" }}
+          >
+            ₹ 1390.00
+            <span
+              className="ms-2 text-muted text-decoration-line-through"
+              style={{ fontSize: "14px" }}
+            >
+              ₹ 1490.00
+            </span>
+          </p>
+
+          <small className="text-danger">Reduced GST Price</small>
         </div>
       </div>
 
@@ -357,7 +793,7 @@ const Home = () => {
                 <img
                   src={item.image}
                   alt=""
-                   loading="lazy"
+                  loading="lazy"
                   className=""
                   style={{
                     width: "100%",
@@ -373,20 +809,11 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="section9">
+      {/* <div className="section9">
         <div className="container my-5">
           {" "}
           <div className="p-5 text-center bg-body-tertiary rounded-3">
             {" "}
-            {/* <svg
-              className="bi mt-4 mb-3"
-              style="color: var(--bs-indigo);"
-              width="100"
-              height="100"
-              aria-hidden="true"
-            >
-              <use xlinkHref="#bootstrap"></use>
-            </svg>{" "} */}
             <a href="" className="">
               <img
                 src="/logo3.png"
@@ -427,6 +854,112 @@ const Home = () => {
               </button>{" "}
             </div>{" "}
           </div>{" "}
+        </div>
+      </div> */}
+
+      <div className="container my-5">
+        <div className="row text-center">
+          {/* Shipping */}
+          <div className="col-md-3 col-6 mb-4">
+            <div
+              style={{
+                width: "70px",
+                height: "70px",
+                borderRadius: "50%",
+                border: "1px solid #ddd",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                margin: "0 auto 12px",
+              }}
+            >
+              <FaTruck size={28} />
+            </div>
+
+            <h6 style={{ fontWeight: "600", fontSize: "14px" }}>
+              SHIPPING WITHIN 48 HOURS
+            </h6>
+
+            <p style={{ fontSize: "13px", color: "#666", marginBottom: 0 }}>
+              Your order will be shipped within 48 hours
+            </p>
+          </div>
+
+          {/* Free Delivery */}
+          <div className="col-md-3 col-6 mb-4">
+            <div
+              style={{
+                width: "70px",
+                height: "70px",
+                borderRadius: "50%",
+                border: "1px solid #ddd",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                margin: "0 auto 12px",
+              }}
+            >
+              <FaBoxOpen size={28} />
+            </div>
+
+            <h6 style={{ fontWeight: "600", fontSize: "14px" }}>
+              FREE DELIVERY
+            </h6>
+
+            <p style={{ fontSize: "13px", color: "#666" }}>On prepaid orders</p>
+          </div>
+
+          {/* Made in India */}
+          <div className="col-md-3 col-6 mb-4">
+            <div
+              style={{
+                width: "70px",
+                height: "70px",
+                borderRadius: "50%",
+                border: "1px solid #ddd",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                margin: "0 auto 12px",
+              }}
+            >
+              <FaFlag size={28} />
+            </div>
+
+            <h6 style={{ fontWeight: "600", fontSize: "14px" }}>
+              MADE IN INDIA
+            </h6>
+
+            <p style={{ fontSize: "13px", color: "#666" }}>
+              100% Indian production
+            </p>
+          </div>
+
+          {/* Fashion */}
+          <div className="col-md-3 col-6 mb-4">
+            <div
+              style={{
+                width: "70px",
+                height: "70px",
+                borderRadius: "50%",
+                border: "1px solid #ddd",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                margin: "0 auto 12px",
+              }}
+            >
+              <FaTshirt size={28} />
+            </div>
+
+            <h6 style={{ fontWeight: "600", fontSize: "14px" }}>
+              LUXURY FASHION
+            </h6>
+
+            <p style={{ fontSize: "13px", color: "#666" }}>
+              High-quality & affordable
+            </p>
+          </div>
         </div>
       </div>
     </>
