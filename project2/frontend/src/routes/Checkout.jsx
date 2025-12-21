@@ -83,7 +83,7 @@ const Checkout = () => {
   const fetchAddress = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3000/api/user/userprofile",
+        "https://mern-backend-oe29.onrender.com/api/user/userprofile",
         {
           headers: {
             Authorization: "Bearer " + token,
