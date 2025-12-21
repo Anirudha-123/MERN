@@ -39,7 +39,7 @@ const CartFetch = () => {
       return;
     }
     try {
-      const response = await axios.get("http://localhost:3000/api/carts/demo", {
+      const response = await axios.get("https://mern-backend-oe29.onrender.com/api/carts/demo", {
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -80,7 +80,7 @@ const CartFetch = () => {
   const incrementQty = async (id) => {
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/carts/demo/${id}`,
+        `https://mern-backend-oe29.onrender.com/api/carts/demo/${id}`,
         {},
         {
           headers: {
@@ -98,7 +98,7 @@ const CartFetch = () => {
   const decrementQty = async (id) => {
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/carts/demo/decrement/${id}`,
+        `https://mern-backend-oe29.onrender.com/api/carts/demo/decrement/${id}`,
         {},
         {
           headers: {
@@ -116,7 +116,7 @@ const CartFetch = () => {
   const removeCart = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3000/api/carts/demo/${id}`,
+        `https://mern-backend-oe29.onrender.com/api/carts/demo/${id}`,
         {
           headers: {
             Authorization: "Bearer " + token,

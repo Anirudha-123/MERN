@@ -63,11 +63,14 @@ const Checkout = () => {
 
   async function getUserCart(params) {
     try {
-      const response = await axios.get("http://localhost:3000/api/carts/demo", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
+      const response = await axios.get(
+        "https://mern-backend-oe29.onrender.com/api/carts/demo",
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
 
       console.log(response);
       setCart(response.data.cart.items);
@@ -105,7 +108,7 @@ const Checkout = () => {
       let token = JSON.parse(localStorage.getItem("token"));
 
       const response = await axios.post(
-        "http://localhost:3000/api/address",
+        "https://mern-backend-oe29.onrender.com/api/address",
         form,
         {
           headers: {
@@ -173,8 +176,6 @@ const Checkout = () => {
       alert("Failed to place order");
     }
   };
-
-  
 
   return (
     <>
@@ -306,11 +307,11 @@ const Checkout = () => {
 
                 <span>
                   <button
-                    className="add-to-bag px-4" 
+                    className="add-to-bag px-4"
                     onClick={() => setShowAdd((prev) => !prev)}
                   >
                     {" "}
-                   + Add New Address
+                    + Add New Address
                   </button>
                 </span>
               </div>
@@ -390,93 +391,92 @@ const Checkout = () => {
                 //   </button>
                 // </form>
                 <form onSubmit={addAddress}>
-  <div className="mb-3 mt-3">
-    <input
-      type="text"
-      name="userName"
-      value={form.userName}
-      onChange={handleChange}
-      className="form-control rounded-pill px-3 py-2"
-      placeholder="Full Name"
-    />
-  </div>
+                  <div className="mb-3 mt-3">
+                    <input
+                      type="text"
+                      name="userName"
+                      value={form.userName}
+                      onChange={handleChange}
+                      className="form-control rounded-pill px-3 py-2"
+                      placeholder="Full Name"
+                    />
+                  </div>
 
-  <div className="row mb-3 g-3">
-    <div className="col-md-6">
-      <input
-        type="text"
-        name="city"
-        value={form.city}
-        onChange={handleChange}
-        className="form-control rounded-pill px-3 py-2"
-        placeholder="City"
-      />
-    </div>
-    <div className="col-md-6">
-      <input
-        type="text"
-        name="state"
-        value={form.state}
-        onChange={handleChange}
-        className="form-control rounded-pill px-3 py-2"
-        placeholder="State"
-      />
-    </div>
-  </div>
+                  <div className="row mb-3 g-3">
+                    <div className="col-md-6">
+                      <input
+                        type="text"
+                        name="city"
+                        value={form.city}
+                        onChange={handleChange}
+                        className="form-control rounded-pill px-3 py-2"
+                        placeholder="City"
+                      />
+                    </div>
+                    <div className="col-md-6">
+                      <input
+                        type="text"
+                        name="state"
+                        value={form.state}
+                        onChange={handleChange}
+                        className="form-control rounded-pill px-3 py-2"
+                        placeholder="State"
+                      />
+                    </div>
+                  </div>
 
-  <div className="row mb-3 g-3">
-    <div className="col-md-6">
-      <input
-        type="number"
-        name="phone"
-        value={form.phone}
-        onChange={handleChange}
-        className="form-control rounded-pill px-3 py-2"
-        placeholder="Mobile Number"
-      />
-    </div>
-    <div className="col-md-6">
-      <input
-        type="email"
-        name="email"
-        value={form.email}
-        onChange={handleChange}
-        className="form-control rounded-pill px-3 py-2"
-        placeholder="Email Address"
-      />
-    </div>
-  </div>
+                  <div className="row mb-3 g-3">
+                    <div className="col-md-6">
+                      <input
+                        type="number"
+                        name="phone"
+                        value={form.phone}
+                        onChange={handleChange}
+                        className="form-control rounded-pill px-3 py-2"
+                        placeholder="Mobile Number"
+                      />
+                    </div>
+                    <div className="col-md-6">
+                      <input
+                        type="email"
+                        name="email"
+                        value={form.email}
+                        onChange={handleChange}
+                        className="form-control rounded-pill px-3 py-2"
+                        placeholder="Email Address"
+                      />
+                    </div>
+                  </div>
 
-  <div className="mb-3">
-    <input
-      type="number"
-      name="pinCode"
-      value={form.pinCode}
-      onChange={handleChange}
-      className="form-control rounded-pill px-3 py-2"
-      placeholder="Pincode"
-    />
-  </div>
+                  <div className="mb-3">
+                    <input
+                      type="number"
+                      name="pinCode"
+                      value={form.pinCode}
+                      onChange={handleChange}
+                      className="form-control rounded-pill px-3 py-2"
+                      placeholder="Pincode"
+                    />
+                  </div>
 
-  <div className="mb-4">
-    <textarea
-      name="address"
-      value={form.address}
-      onChange={handleChange}
-      className="form-control rounded-3 px-3 py-2"
-      placeholder="Full Address"
-      rows="3"
-    ></textarea>
-  </div>
+                  <div className="mb-4">
+                    <textarea
+                      name="address"
+                      value={form.address}
+                      onChange={handleChange}
+                      className="form-control rounded-3 px-3 py-2"
+                      placeholder="Full Address"
+                      rows="3"
+                    ></textarea>
+                  </div>
 
-  <button
-    type="submit"
-    className="btn btn-primary w-100 rounded-pill py-2"
-  >
-    Save Address
-  </button>
-</form>
-
+                  <button
+                    type="submit"
+                    className="btn btn-primary w-100 rounded-pill py-2"
+                  >
+                    Save Address
+                  </button>
+                </form>
               )}
             </div>
 
@@ -558,8 +558,6 @@ const Checkout = () => {
                 <span>₹{totalAmount.toFixed(0)}</span>
               </div>
             </div>
-
-           
 
             <div className="mt-4">
               <h5>Select Payment Method</h5>
