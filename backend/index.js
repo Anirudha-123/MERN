@@ -17,16 +17,16 @@ app.use(express.json())
 
 
 app.use(cors({
-<<<<<<< HEAD
+
   origin:[  "http://localhost:5173" , "http://localhost:5174" ],
-=======
+
   origin:  [
     "http://localhost:5173",
     "https://mern-8tqb.onrender.com",
     "https://mern-backend-oe29.onrender.com",
     
   ],
->>>>>>> 1d9e150f5a356ad12f36d00840eac953efe0bbe6
+
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"],
   methods: ["GET", "POST", "PUT", "DELETE"],
