@@ -86,7 +86,7 @@ const Categories = () => {
   const fetchAllProducts = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/product/getProducts"
+        "https://mern-backend-oe29.onrender.com/api/product/getProducts"
       );
       setProductData(response.data.products);
       console.log(response.data.products);
