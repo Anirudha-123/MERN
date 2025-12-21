@@ -158,7 +158,7 @@ const Checkout = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/order",
+        "https://mern-backend-oe29.onrender.com/api/order",
         {
           addressId: selectedAddressId,
           cartId: cartId,
