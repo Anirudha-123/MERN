@@ -38,7 +38,7 @@ const Orders = () => {
       let token = JSON.parse(localStorage.getItem("token"));
 
       const response = await axios.post(
-        "http://localhost:3000/api/address",
+        "https://mern-backend-oe29.onrender.com/api/address",
         form,
         {
           headers: {
@@ -84,7 +84,7 @@ const Orders = () => {
     if (!confirmed) return;
 
     try {
-      await axios.delete(`http://localhost:3000/api/order/${orderId}`, {
+      await axios.delete(`https://mern-backend-oe29.onrender.com/api/order/${orderId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -102,7 +102,7 @@ const Orders = () => {
   const fetchOrders = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/order/allOrders",
+        "https://mern-backend-oe29.onrender.com/api/order/allOrders",
         {
           headers: {
             Authorization: `Bearer ${token}`,
