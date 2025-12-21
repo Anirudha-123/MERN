@@ -16,7 +16,7 @@ const Profile = () => {
     async function fetch() {
       try {
         const res = await axios.get(
-          "http://localhost:3000/api/user/singleuser",
+          "https://mern-backend-oe29.onrender.com/api/user/singleuser",
           {
             headers: {
               Authorization: "Bearer " + token,
