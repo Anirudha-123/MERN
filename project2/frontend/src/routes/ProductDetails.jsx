@@ -19,7 +19,7 @@ const ProductDetails = () => {
   const fetchAllProducts = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/product/getProducts"
+        "https://mern-backend-oe29.onrender.com/api/product/getProducts"
       );
       setProductData(response.data.products);
       console.log(response.data.products);
@@ -99,7 +99,7 @@ const ProductDetails = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/carts/demo`,
+        `https://mern-backend-oe29.onrender.com/api/carts/demo`,
         {
           cartProduct: productId,
           quantity: 1,
