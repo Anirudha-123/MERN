@@ -1,0 +1,78 @@
+<!doctype html><html><head><script type="text/javascript" src="https://www.uniqlo.com/assets/48ab9a987725ec6c51060792f9b14b6ed0011a38987"  ></script><script type="text/javascript" src="/in/elgnisolqinu.js?init"></script><meta charset="utf-8" data-react-helmet="true"><meta name="viewport" content="initial-scale=1,maximum-scale=5,minimum-scale=1,width=device-width,viewport-fit=cover"><meta name="google-site-verification" content="Dy1r8quVMu58G93X6nCb9br8YI61xzkoBn_axJMv6eY"/><title>UNIQLO</title><style>.fr-spa-header{position:absolute;z-index:0;width:100%}</style><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="format-detection" content="telephone=no"><meta property="og:site_name" content="UNIQLO" data-react-helmet="true"><meta property="og:type" content="website"><meta property="og:image" content="https://asset.uniqlo.com/g/logotypes/uniqlo_roman_1500g.png" data-react-helmet="true"><meta property="fb:app_id" content="2706770142898486" data-react-helmet="true"><meta name="apple-mobile-web-app-title" content="UNIQLO"><meta name="application-name" content="UNIQLO"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><link rel="apple-touch-icon-precomposed" href="https://asset.uniqlo.com/logotypes/uniqlo_roman_180.png"><link rel="mask-icon" sizes="any" color="#ff0000" href="https://asset.uniqlo.com/logotypes/uniqlo_roman_mono.svg"><link rel="icon" sizes="16x16 32x32 64x64" href="https://asset.uniqlo.com/logotypes/uniqlo_roman_64.png"><link rel="shortcut icon" href="https://asset.uniqlo.com/logotypes/uniqlo_roman.ico"/><link rel="preload" as="script" href="https://www.uniqlo.com/assets/48ab9a987725ec6c51060792f9b14b6ed0011a38987"/><link rel="preload" href="/in/en/catalog/static/UniqloProBold.woff2" as="font" crossorigin><link rel="preload" href="/in/en/catalog/static/UniqloProLight.woff2" as="font" crossorigin><link rel="preload" href="https://www.uniqlo.com/in/api/commerce/v3/en/layouts" crossorigin as="fetch"><link rel="preconnect" href="https://asset.uniqlo.com" crossorigin><link rel="preconnect" href="https://image.uniqlo.com" crossorigin><link rel="preconnect" href="https://im.uniqlo.com" crossorigin><link rel="preconnect" href="https://www.googletagmanager.com/" crossorigin><link rel="preconnect" href="https://www.google.com/" crossorigin><link rel="preconnect" href="https://www.facebook.com/" crossorigin><link rel="preconnect" href="https://stats.g.doubleclick.net/" crossorigin><link rel="preconnect" href="https://www.google-analytics.com/" crossorigin><link rel="preconnect" href="https://connect.facebook.net/" crossorigin><script type="text/javascript" src="//asset.uniqlo.com/g/scripts/queueclient.min.js"></script><script data-queueit-intercept-domain="www.uniqlo.com" data-queueit-spa="true" data-queueit-intercept="true" data-queueit-c="frap" type="text/javascript" src="//asset.uniqlo.com/g/scripts/queueconfigloader.min.js"></script><script>//   function shouldIgnore(uri) {
+//     var uris = [
+//       "/search",
+//       "/cms/preview",
+//       "/member",
+//       "/account",
+//       "/checkout",
+//       "/wishlist"
+//     ];
+//     var ignorable = function(ignoreUri) {
+//       return uri.includes(ignoreUri);
+//     }
+//     return uris.some(ignorable)
+//   }
+function isECrenewalPath(uri) {
+  var isECRenewalPhase1 = "2" 
+  isECRenewalPhase1 = Number(isECRenewalPhase1)
+  if(uri === "/" || uri ==="/women" || uri === "/men" || uri === "/kids" || uri === "/baby" && isECRenewalPhase1>=1) return true 
+}
+  function getPreloadHref(path, query) {
+    var region = "in";
+    var language = "en";
+    var enableV2Review = "true"
+    var productImageAspectRatio = "3x4";
+    var reg = new RegExp(`(${region})\\/(${language})([A-Za-z0-9\\-\\/]+)?`);
+    var matches = path.match(reg, "g");
+    if (!matches) {
+      return "";
+    }
+    var baseAPIUrl = "https://www.uniqlo.com/in/api/commerce/v3/en/";
+    var uri = matches[3] || "/";
+    var href;
+    var productReg = /products\/([\dA-Z\-]+)/;
+    var productMatches = uri.match(productReg);
+     if (productMatches) {
+      // PDP
+      var id = productMatches[1];
+      var pdpURI = baseAPIUrl + "products/" + id ;
+      if (JSON.parse(enableV2Review)) {
+        href = pdpURI + "?isV2Review=true" + `&imageRatio=${productImageAspectRatio}`;
+      } else {
+        href = pdpURI + `?imageRatio=${productImageAspectRatio}`;
+      }
+      // } else if (shouldIgnore(uri)) {
+      // Don't need to preload APIs
+    } else if(!isECrenewalPath(uri)) {
+      // CMS
+      href = baseAPIUrl + "cms?path=" + encodeURIComponent(uri);
+    }
+    return href;
+  }
+  var path = window.location.pathname;
+  var query = window.location.search;
+  var href = getPreloadHref(path, query);
+  if (href) {
+    var preloadLink = document.createElement("link");
+    preloadLink.href = href;
+    preloadLink.rel = "preload";
+    preloadLink.as = "fetch";
+    preloadLink.setAttribute("crossorigin", true);
+    document.head.appendChild(preloadLink);
+  }</script><script type="text/javascript">var UQ_MOBILEAPP_PRESENT=!1;function logEvent(e,i){if(e)if(window.AnalyticsWebInterface)window.AnalyticsWebInterface.logEvent(e,JSON.stringify(i));else if(window.webkit&&window.webkit.messageHandlers&&window.webkit.messageHandlers.firebase){var s={command:"logEvent",name:e,parameters:i};window.webkit.messageHandlers.firebase.postMessage(s)}}function setUserProperty(e,i){if(e&&i)if(window.AnalyticsWebInterface)window.AnalyticsWebInterface.setUserProperty(e,i);else if(window.webkit&&window.webkit.messageHandlers&&window.webkit.messageHandlers.firebase){var s={command:"setUserProperty",name:e,value:i};window.webkit.messageHandlers.firebase.postMessage(s)}}window.document.cookie.split(";").forEach(function(e){var i,s,t=e.split("=");"native_app"===t[0].trim()&&"uqapp"===t[1].trim()&&(i=document.scripts[0],(s=document.createElement("script")).type="text/javascript",s.src="//asset.fastretailing.com/uq/jp/mobileapp/v1/mobileapp.js",i.parentNode.insertBefore(s,i),UQ_MOBILEAPP_PRESENT=!0)})</script><script defer="defer">var dataLayer=[{device:"pc"},{siteType:"desktop"}],gtmEventHandler=function(e){var a=e.dataset,t="N/A",n={event:"trackEvent",eventCategory:a.category||t,eventAction:a.action||t,eventLabel:a.label||t};"value"in a&&(n.eventValue=a.value),"UQCustomerAppAndroid"in window?UQCustomerAppAndroid.receiveAnalyticsData(JSON.stringify(n)):"webkit"in window&&webkit.messageHandlers&&webkit.messageHandlers.receiveAnalyticsData&&webkit.messageHandlers.receiveAnalyticsData.postMessage(n),dataLayer&&dataLayer.push(n)}</script><script defer="defer">!function(e,t,a,n,r){e[n]=e[n]||[],e[n].push({"gtm.start":(new Date).getTime(),event:"gtm.js"});var g=t.getElementsByTagName(a)[0],m=t.createElement(a);m.async=!0,m.defer=!0,m.src="//www.googletagmanager.com/gtm.js?id=GTM-WWX78W5",g.parentNode.insertBefore(m,g)}(window,document,"script","dataLayer")</script><link href="/in/en/catalog/swiper-9795da45b855aff76935.css" rel="stylesheet">
+                              <script>!function(e){var n="https://s.go-mpulse.net/boomerang/";if("False"=="True")e.BOOMR_config=e.BOOMR_config||{},e.BOOMR_config.PageParams=e.BOOMR_config.PageParams||{},e.BOOMR_config.PageParams.pci=!0,n="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="GPQS9-PCKKM-MVMJ8-B6JDB-UENE2",function(){function e(){if(!o){var e=document.createElement("script");e.id="boomr-scr-as",e.src=window.BOOMR.url,e.async=!0,i.parentNode.appendChild(e),o=!0}}function t(e){o=!0;var n,t,a,r,d=document,O=window;if(window.BOOMR.snippetMethod=e?"if":"i",t=function(e,n){var t=d.createElement("script");t.id=n||"boomr-if-as",t.src=window.BOOMR.url,BOOMR_lstart=(new Date).getTime(),e=e||d.body,e.appendChild(t)},!window.addEventListener&&window.attachEvent&&navigator.userAgent.match(/MSIE [67]\./))return window.BOOMR.snippetMethod="s",void t(i.parentNode,"boomr-async");a=document.createElement("IFRAME"),a.src="about:blank",a.title="",a.role="presentation",a.loading="eager",r=(a.frameElement||a).style,r.width=0,r.height=0,r.border=0,r.display="none",i.parentNode.appendChild(a);try{O=a.contentWindow,d=O.document.open()}catch(_){n=document.domain,a.src="javascript:var d=document.open();d.domain='"+n+"';void(0);",O=a.contentWindow,d=O.document.open()}if(n)d._boomrl=function(){this.domain=n,t()},d.write("<bo"+"dy onload='document._boomrl();'>");else if(O._boomrl=function(){t()},O.addEventListener)O.addEventListener("load",O._boomrl,!1);else if(O.attachEvent)O.attachEvent("onload",O._boomrl);d.close()}function a(e){window.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!window.BOOMR||!window.BOOMR.version&&!window.BOOMR.snippetExecuted){window.BOOMR=window.BOOMR||{},window.BOOMR.snippetStart=(new Date).getTime(),window.BOOMR.snippetExecuted=!0,window.BOOMR.snippetVersion=12,window.BOOMR.url=n+"GPQS9-PCKKM-MVMJ8-B6JDB-UENE2";var i=document.currentScript||document.getElementsByTagName("script")[0],o=!1,r=document.createElement("link");if(r.relList&&"function"==typeof r.relList.supports&&r.relList.supports("preload")&&"as"in r)window.BOOMR.snippetMethod="p",r.href=window.BOOMR.url,r.rel="preload",r.as="script",r.addEventListener("load",e),r.addEventListener("error",function(){t(!0)}),setTimeout(function(){if(!o)t(!0)},3e3),BOOMR_lstart=(new Date).getTime(),i.parentNode.appendChild(r);else t(!1);if(window.addEventListener)window.addEventListener("load",a,!1);else if(window.attachEvent)window.attachEvent("onload",a)}}(),"".length>0)if(e&&"performance"in e&&e.performance&&"function"==typeof e.performance.setResourceTimingBufferSize)e.performance.setResourceTimingBufferSize();!function(){if(BOOMR=e.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var n=""=="true"?1:0,t="",a="ycgjsbyxgihcq2j5h3ja-f-c33cd856a-clientnsv4-s.akamaihd.net",i="false"=="true"?2:1,o={"ak.v":"39","ak.cp":"1100302","ak.ai":parseInt("355545",10),"ak.ol":"0","ak.cr":30,"ak.ipv":4,"ak.proto":"h2","ak.rid":"174da4a4","ak.r":49694,"ak.a2":n,"ak.m":"x","ak.n":"essl","ak.bpcip":"192.140.153.0","ak.cport":52153,"ak.gh":"23.64.1.206","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"","ak.t":"1765621458","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==+unEDdTjzLMcdSjr/auypWRrOXILCx2Awj6rT+FQbJtZ0NGiaeKCqT9S1y4umt4fwUc8R6xhXwgBa32ngX0LAVAS42A6LaZGst9zBWpzPeQmb+RNNygFKJjz1LL88S0dki7pt1npMUbWptlOVdqy1HDlT7GTQAFyMelLeS1V4k4XZrKOskAuIatLB5QdKPywCaI4bad/AznFIourvQOGm1fBQVPDBlU7GeiGetQaQoCb4FBJtowA11egB1KngOtW1DnuYb4MthlZYUbuN5WzQVLOx+OICdErn1g1cejH6Im3upwZs1gqBTyRx42m9qwFKHwdL+0tURv0FDHlEmwbnoy+IEPct2v+VwcJmVitJ1quao30iPtlkw/mAZ+tisUTNnfRJWtCe3VPmdhi4FUtDuVeaAnWlVBwhufNptjkyZc=","ak.pv":"1789","ak.dpoabenc":"","ak.tf":i};if(""!==t)o["ak.ruds"]=t;var r={i:!1,av:function(n){var t="http.initiator";if(n&&(!n[t]||"spa_hard"===n[t]))o["ak.feo"]=void 0!==e.aFeoApplied?1:0,BOOMR.addVar(o)},rv:function(){var e=["ak.bpcip","ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(e)}};BOOMR.plugins.AK={akVars:o,akDNSPreFetchDomain:a,init:function(){if(!r.i){var e=BOOMR.subscribe;e("before_beacon",r.av,null,null),e("onbeacon",r.rv,null,null),r.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head><body class="include-g-nav"><noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-WWX78W5" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="root" class="fr-layer-base fr-spa-root"></div><div id="modal-root"></div><input type="hidden" name="fingerprint" id="device-fingerprint"/><script defer="defer">window.IGLOO=window.IGLOO||{enable_rip:!0,enable_flash:!1,install_flash:!1,loader:{version:"general5",fp_static:!1}},window.IGLOO.bb_callback=function(i,n){window.io_device_fingerprint=i}</script><script defer="defer">document.body.addEventListener("keydown",function(e){9===e.which&&document.documentElement.classList.add("show-focus-outline")}),document.body.addEventListener("click",function(e){document.documentElement.classList.remove("show-focus-outline")})</script><script>if (
+      window.location.href.includes("paymentType") ||
+      window.location.href.includes("errorCode")
+    ) {
+      var h2 = document.createElement('H2');
+      var div = document.createElement('DIV');
+      div.style = `position: absolute;
+                      height: 100vh;
+                      width: 100vw;
+                      align-items: center;
+                      justify-content: center;
+                      display: flex;`
+      h2.innerHTML = "Redirecting to Uniqlo. Please do not refresh or exit your browser.";
+      div.appendChild(h2);
+      document.getElementById("root").appendChild(div);
+    }</script><script type="text/javascript" src="/in/en/catalog/swiper-9795da45b855aff76935.js" defer="defer"></script><script type="text/javascript" src="/in/en/catalog/vendors~main-9795da45b855aff76935.js" defer="defer"></script><script type="text/javascript" src="/in/en/catalog/main-9795da45b855aff76935.js" defer="defer"></script><script type="text/javascript"  src="/Wpij8Xsn1EOv/kM/ZIw9odg2yS/5mOuhNSpGbtbmVOh/IllgMkk7BQ/cl/41ZRZ3NVQ"></script><script type="text/javascript"  src="/Wpij8Xsn1EOv/kM/ZIw9odg2yS/wcOuhNYDV5/XkZqMkk7BQ/GH/I7cBRuRytu?v=c51adf5e-ec5b-12e6-db6f-94e8988c1740" defer></script></body></html>
