@@ -16,7 +16,7 @@ const Products = () => {
 
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/product/getProducts"
+        "https://mern-8tqb.onrender.com/api/product/getProducts"
       );
 
       setProductData(response.data.products);
