@@ -33,7 +33,7 @@ const Header = () => {
               />
             </Link>
           </div>{" "}
-          <ul className="nav gap-5 col-12 col-md-auto mb-2 justify-content-center mb-md-0 headUl">
+          <ul className="d-none d-md-flex nav gap-5 col-12 col-md-auto mb-2 justify-content-center mb-md-0 headUl">
             {" "}
             {/* <li>
               <Link to="/" className="nav-link text-dark  px-2 header-nav" >
@@ -60,7 +60,7 @@ const Header = () => {
               </a>
 
               <ul
-                className="dropdown-menu shadow-lg border-0"
+                className=" dropdown-menu shadow-lg border-0"
                 style={{
                   borderRadius: "16px",
                   padding: "12px",
